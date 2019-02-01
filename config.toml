@@ -28,7 +28,7 @@ home = ["HTML", "RSS", "Algolia"]
   leancloud_app_key = ""
 
   # algolia site search
-  algolia_search = true
+  algolia_search = false
   algolia_appId = ""
   algolia_indexName = ""
   algolia_apiKey = ""
@@ -50,11 +50,11 @@ home = ["HTML", "RSS", "Algolia"]
   disqus_site = ""
 
   #Enable wechat pay & alipay to allow readers send reward money if they like the articles 
-  reward = true 
+  reward = false 
   # reward_guide = "如果这篇文章对你有用,请随意打赏" 
 
   friends = false
-  bookmarks = false
+  bookmarks = true
   about_me = false
 
   [params.social]
@@ -76,21 +76,22 @@ home = ["HTML", "RSS", "Algolia"]
   #href =  "https://zhaozhihan.com"
 
   [[params.bookmark_link]]
-  title =  "Martin Fowler"
-  href =  "https://martinfowler.com"
+  title =  "David Brooks"
+  href =  "https://www.nytimes.com/column/david-brooks"
   [[params.bookmark_link]]
-  title = "ServiceMesher"
-  href =  "http://www.servicemesher.com"
+  #title = "ServiceMesher"
+  #href =  "http://www.servicemesher.com"
   [[params.bookmark_link]]
-  title =  "Pxhere"
-  href = "https://pxhere.com"
+  #title =  "Pxhere"
+  #href = "https://pxhere.com"
   [[params.bookmark_link]]
-  title = "unsplash"
-  href = "https://unsplash.com"
+  #title = "unsplash"
+  #href = "https://unsplash.com"
+  
   
   [[params.addtional_menus]]
-  title =  "BOOKS"
-  href =  "/top/books/"
+  #title =  "Links"
+  #href =  "/top/links/"
   [[params.addtional_menus]]
   #title =  "ABOUT"
   #href =  "/top/about/"

@@ -20,5 +20,15 @@
       <description></description>
     </item>
     
+    <item>
+      <title></title>
+      <link>/top/links/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/top/links/</guid>
+      <description>David Brooks David Brooks https://www.nytimes.com/column/david-brooks
+ </description>
+    </item>
+    
   </channel>
 </rss>

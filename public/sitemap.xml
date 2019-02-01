@@ -8,6 +8,10 @@
   </url>
   
   <url>
+    <loc>/top/links/</loc>
+  </url>
+  
+  <url>
     <loc>/categories/</loc>
     <priority>0</priority>
   </url>
@@ -20,6 +24,11 @@
   
   <url>
     <loc>/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/top/</loc>
     <priority>0</priority>
   </url>
   
