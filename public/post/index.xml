@@ -6,18 +6,19 @@
     <description>Recent content in Posts on Webb Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 25 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 31 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Hello World</title>
-      <link>/post/hello-world/</link>
-      <pubDate>Fri, 25 Jan 2019 00:00:00 +0000</pubDate>
+      <title>My first shiny app</title>
+      <link>/post/shiny-app1/</link>
+      <pubDate>Thu, 31 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/hello-world/</guid>
-      <description></description>
+      <guid>/post/shiny-app1/</guid>
+      <description>https://webb-kyle.shinyapps.io/mixture_simulation/
+Here’s the link for the first shiny app I ever built. Basically, this simulator lets the user select the number of components (Normal distributions) they want to randomly sample from. The mean and standard deviation of the distributions is randomly assigned and the sample size can be selected by the user as either 200, 500, 1000, 2000, or 5000 points from each component. Mu (mean) and Dev (standard deviation) results will show in a resulting table.</description>
     </item>
     
   </channel>

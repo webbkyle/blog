@@ -1,0 +1,15 @@
+---
+title: My first shiny app
+author: Kyle Webb
+date: '2019-01-31'
+slug: shiny-app1
+categories: []
+tags: []
+subtitle: ''
+description: 'This was the first shiny app I every made - a simulation of gaussian mixtures.'
+image: ''
+---
+
+https://webb-kyle.shinyapps.io/mixture_simulation/
+
+Here's the link for the first shiny app I ever built. Basically, this simulator lets the user select the number of components (Normal distributions) they want to randomly sample from. The mean and standard deviation of the distributions is randomly assigned and the sample size can be selected by the user as either 200, 500, 1000, 2000, or 5000 points from each component. Mu (mean) and Dev (standard deviation) results will show in a resulting table. 
