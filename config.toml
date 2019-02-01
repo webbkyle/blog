@@ -1,4 +1,5 @@
-baseurl = "https://zhaohuabing.com"
+#baseurl = "https://zhaohuabing.com"
+baseurl = "https://webb-blog.com"
 title = "Webb Blog"
 theme = "hugo-theme-cleanwhite"
 languageCode = "en-us"
@@ -13,13 +14,13 @@ hasCJKLanguage = true
 home = ["HTML", "RSS", "Algolia"]
 
 [params]
-  header_image = "img/home-bg-jeep.jpg"
+  header_image = "img/backdrop.jpg"
   SEOTitle = " A Blog for the web"
   description = "A blog about me"
   keyword = "Kyle Webb, Webb, Blog"
 
   image_404 = "img/404-bg.jpg"
-  title_404 = "你来到了没有知识的荒原 :("
+  title_404 = "You've lost you're way :("
 
   # leancloud storage for page view counter
   page_view_conter = false 
@@ -33,9 +34,9 @@ home = ["HTML", "RSS", "Algolia"]
   algolia_apiKey = ""
 
   # Sidebar settings
-  sidebar_about_description = "Software Developer, Open Source Enthusiast and Life Adventurer"
-  #sidebar_avatar = "img/avatar-zhaohuabing.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
-  sidebar_avatar = "img/zhaohuabing.png"      # use absolute URL, seeing it's used in both `/` and `/about/`
+  sidebar_about_description = "Data scientist, Liverpool fanatic, Investigator, (soon to be) Husband"
+  #sidebar_avatar = "img/profile.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
+  sidebar_avatar = "img/profile.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
 
   featured_tags = true 
   featured_condition_size = 1 
