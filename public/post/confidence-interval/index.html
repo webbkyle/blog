@@ -8,14 +8,14 @@
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <meta name="description" content="This was the first shiny app I every made - a simulation of gaussian mixtures.">
+    <meta name="description" content="A confidence interval simulator showing imperfections between theoretical and empirical type 1 error rates">
     
     <meta name="keyword"  content="Kyle Webb, Webb, Blog">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>My first shiny app- A blog for the web</title>
+    <title>Confidence Interval- A blog for the web</title>
 
-    <link rel="canonical" href="/post/shiny-app1/">
+    <link rel="canonical" href="/post/confidence-interval/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -140,7 +140,7 @@
                         </a>
                         
                     </div>
-                    <h1>My first shiny app</h1>
+                    <h1>Confidence Interval</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
 			Posted by 
@@ -148,7 +148,7 @@
 			    Kyle Webb
 			 
 			on 
-			Thursday, January 31, 2019
+			Monday, February 18, 2019
                         
                     </span>
                 </div>
@@ -176,14 +176,19 @@
                 </header>
                 
                 
-                <p><a href="https://webb-kyle.shinyapps.io/mixture_simulation/" class="uri">https://webb-kyle.shinyapps.io/mixture_simulation/</a></p>
-<p>Here’s the link for the first shiny app I ever built. Basically, this simulator lets the user select the number of components (Normal distributions) they want to randomly sample from. The mean and standard deviation of the distributions are randomly assigned and the sample sizes for the distributions are user-selected as 200, 500, 1000, 2000, or 5000 points from each component. Mu (mean) and Dev (standard deviation) results will show in a resulting table.</p>
+                <p><a href="https://webb-kyle.shinyapps.io/shinyapp-confidence-int/" class="uri">https://webb-kyle.shinyapps.io/shinyapp-confidence-int/</a></p>
+<p>This shiny app calculates confidence intervals from normal distributions with subsampling criteria specified by the user. Number of confidence intervals (Samples) is also defined by the user as well as the mean and standard deviation of the distribution. Note the discrepencies between empirical and theoretical error rates. These are pronounced when subsampling numbers are low. This example demonstrates one of the pitfalls with frequentist statistics and a reliance upon confidence interval estimation.</p>
 
 
                 
 
                 <hr>
                 <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/shiny-app-mixture/" data-toggle="tooltip" data-placement="top" title="My first shiny app">&larr;
+                            Previous Post</a>
+                    </li>
                     
                     
                 </ul>
@@ -208,6 +213,10 @@
                     <div class="tags">
                         
                         
+                        
+                        <a href="/tags/shiny" title="shiny">
+                            shiny
+                        </a>
                         
                         
                     </div>

@@ -6,29 +6,29 @@
     <description>Recent content on Webb Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 31 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 18 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>My first shiny app</title>
-      <link>/post/shiny-app1/</link>
-      <pubDate>Thu, 31 Jan 2019 00:00:00 +0000</pubDate>
+      <title>Confidence Interval</title>
+      <link>/post/confidence-interval/</link>
+      <pubDate>Mon, 18 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/shiny-app1/</guid>
-      <description>https://webb-kyle.shinyapps.io/mixture_simulation/
-Here’s the link for the first shiny app I ever built. Basically, this simulator lets the user select the number of components (Normal distributions) they want to randomly sample from. The mean and standard deviation of the distributions is randomly assigned and the sample size can be selected by the user as either 200, 500, 1000, 2000, or 5000 points from each component. Mu (mean) and Dev (standard deviation) results will show in a resulting table.</description>
+      <guid>/post/confidence-interval/</guid>
+      <description>https://webb-kyle.shinyapps.io/shinyapp-confidence-int/
+This shiny app calculates confidence intervals from normal distributions with subsampling criteria specified by the user. Number of confidence intervals (Samples) is also defined by the user as well as the mean and standard deviation of the distribution. Note the discrepencies between empirical and theoretical error rates. These are pronounced when subsampling numbers are low. This example demonstrates one of the pitfalls with frequentist statistics and a reliance upon confidence interval estimation.</description>
     </item>
     
     <item>
       <title>My first shiny app</title>
-      <link>/post/shiny-app1/</link>
+      <link>/post/shiny-app-mixture/</link>
       <pubDate>Thu, 31 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/shiny-app1/</guid>
+      <guid>/post/shiny-app-mixture/</guid>
       <description>https://webb-kyle.shinyapps.io/mixture_simulation/
-Here’s the link for the first shiny app I ever built. Basically, this simulator lets the user select the number of components (Normal distributions) they want to randomly sample from. The mean and standard deviation of the distributions is randomly assigned and the sample size can be selected by the user as either 200, 500, 1000, 2000, or 5000 points from each component. Mu (mean) and Dev (standard deviation) results will show in a resulting table.</description>
+Here’s the link for the first shiny app I ever built. Basically, this simulator lets the user select the number of components (Normal distributions) they want to randomly sample from. The mean and standard deviation of the distributions are randomly assigned and the sample sizes for the distributions are user-selected as 200, 500, 1000, 2000, or 5000 points from each component. Mu (mean) and Dev (standard deviation) results will show in a resulting table.</description>
     </item>
     
     <item>

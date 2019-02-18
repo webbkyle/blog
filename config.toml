@@ -3,20 +3,22 @@ baseurl = "https://webb-blog.com"
 title = "Webb Blog"
 theme = "hugo-theme-cleanwhite"
 languageCode = "en-us"
+enableEmoji = true
 # Enable comments by entering your Disqus shortname
 disqusShortname = ""
 googleAnalytics = ""
 preserveTaxonomyNames = true
 paginate = 5 #frontpage pagination
 hasCJKLanguage = true
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [outputs]
 home = ["HTML", "RSS", "Algolia"]
 
 [params]
   header_image = "img/backdrop.jpg"
-  SEOTitle = " A Blog for the web"
-  description = "A blog about me"
+  SEOTitle = " A blog for the web"
+  description = "A blog about me and the things I like."
   keyword = "Kyle Webb, Webb, Blog"
 
   image_404 = "img/404-bg.jpg"
@@ -40,7 +42,7 @@ home = ["HTML", "RSS", "Algolia"]
 
   featured_tags = true 
   featured_condition_size = 1 
-
+  
   # Baidu Analytics
   ba_track_id = ""
   
@@ -79,8 +81,8 @@ home = ["HTML", "RSS", "Algolia"]
   title =  "David Brooks"
   href =  "https://www.nytimes.com/column/david-brooks"
   [[params.bookmark_link]]
-  #title = "ServiceMesher"
-  #href =  "http://www.servicemesher.com"
+  title = "Ta-Nehisi Coates"
+  href =  "https://www.theatlantic.com/author/ta-nehisi-coates/"
   [[params.bookmark_link]]
   #title =  "Pxhere"
   #href = "https://pxhere.com"
