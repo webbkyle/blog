@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><head>
+    <meta name="google-site-verification" content="9vIieCe-Qpd78QOmBl63rGtIVbhY6sYyuxX3j8XWBA4" />
+    <meta name="baidu-site-verification" content="LRrmH41lz7" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="description" content="Interactive Hazard Regression">
+    
+    <meta name="keyword"  content="Kyle Webb, Webb, Blog">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Data Science Fellowship - Rotation 1- A blog for the web</title>
+
+    <link rel="canonical" href="/post/data-science-fellowship-rotation-1/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+	
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+</head>
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Webb Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/d3">d3</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/shiny">shiny</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/sports">sports</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/statistics">statistics</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href=""></a></li>
+                    
+                        <li><a href=""></a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/backdrop.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/shiny" title="shiny">
+                            shiny
+                        </a>
+                        
+                        <a class="tag" href="/tags/d3" title="d3">
+                            d3
+                        </a>
+                        
+                        <a class="tag" href="/tags/statistics" title="statistics">
+                            statistics
+                        </a>
+                        
+                    </div>
+                    <h1>Data Science Fellowship - Rotation 1</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+			Posted by 
+			
+			    Kyle Webb
+			 
+			on 
+			Tuesday, March 26, 2019
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    
+                </header>
+                
+                
+                <div id="r-package-development-for-survival-analysis" class="section level3">
+<h3>R Package Development for Survival Analysis</h3>
+<p>For those that don’t know, the NIH (National Institutes of Health) is made up of 27 institutes and centers. One of those centers, the National Institute of Allergy and Infectious Dieseases (NIAID), has a special program designed to bring data scientists within the institute to gain hands-on-experience in applying and managing big data, bioinformatics strategies, and software development. NIAID’s mission is to conduct and support basic and applied research to better understand, treat, and ultimately prevent infectious, immunologic, and allergic diseases. My first rotation with NIAID was to work within the Division of Clinical Research (DCR) and specifically the Biostatistics Research Branch (BRB). The DCR focuses on facilitating the efficient and effective performance of NIAID research programs on both the domestic and international levels.</p>
+<p>My first rotation as a data science fellow with the NIH involved sending and updating packages in R. Through this process, I’ve learned to implement git to update and share commits with the original author of the R package. On top of this, I was able to get some experience coding in D3.js for some smoother functionality and user-interaction. This rotation has taught me the value of <strong>planning</strong> and how important it is to map out your code for a project. Through this post, I’ll talk about the statistics behind the <em>ihazr</em> tool, the tech I used, and the challenges I faced, and (ultimately) the R package submission process.</p>
+<div id="ihazr" class="section level5">
+<h5>IHAZR</h5>
+<p>The tool that I was working with, <em>ihazr</em> (interactive hazard regression), was built by Jason Liang using <a href="https://shiny.rstudio.com/">R Shiny</a> and the <a href="https://www.htmlwidgets.org/">htmlwidgets</a> package. <em>ihazr</em>, as its name suggests, is an interactive tool used for estimating the hazard function in survival analysis. While the statistical theory involved in survival analysis is extensive, there were only a few concepts I needed to fully understand for this project.</p>
+<ul>
+<li>Survival Function</li>
+<li>Hazard Function</li>
+<li>Nelson Aalen estimator</li>
+<li>Semi-parametric estimation</li>
+</ul>
+</div>
+<div id="d3.js" class="section level5">
+<h5>D3.js</h5>
+<p>Simply put, <a href="https://d3js.org/">D3.js</a> is amazing. If Picasso were a data scientist, I’m pretty sure he would use it. The D3 framework allows users to bind their data to the html document, so it allows for easy transfer between actual data and web visualization. D3 allows for customizable, clickable, actionable data that you can see and investigate, so it provides the perfect interface for the <strong>ihazr</strong> survival diagnostic tool.</p>
+<p>Although javascript was a new language for me, I found I could mainly pick up what was already built into <em>ihazr</em>’s D3.js file. But there were definitely some speed bumps along the way:</p>
+<ul>
+<li><p>“===” and “==”</p>
+<p>I noticed very quickly that javascript can regard characters and integers as equitable values. For boolean arguments in javascript, <em>5 == “5”</em> would return <em>true</em> as well as <em>5 == 5</em>. It was only when writing the third <em>=</em> that the truth argument goes to its strictest criteria. For instance, running with our example, <em>5 === “5”</em> would return <em>false</em> and <em>5 !== “5”</em> would return <em>true</em>.</p></li>
+<li><p>variable assignment</p>
+<p>Variable assignment in javascript is a pain, mainly beacause you have to type more. <em>var</em> is used for general variable assignment (global or within a function/local), <em>const</em> is for (you guessed it) having a variable that never changes, and <em>let</em> only lives within a block of code, which, in javascript is seperated by curly braces. I learned there’s some <a href="https://dev.to/johnwolfe820/should-you-never-truly-use-var-bdi">controversy over var</a> in the javascript community, and I also discovered that writing <em>var x = 13</em> and <em>x = 13</em> would give the same result.</p></li>
+<li><p><a href="https://medium.com/codebuddies/getting-to-know-asynchronous-javascript-callbacks-promises-and-async-await-17e0673281ee">asynchronous functions</a></p>
+<p>This took some getting used to. I learned that JavaScript, unlike most programming languages, is <em>asynchronous</em> meaning the occurence of the code can happen independently from the actual program flow (the order the code was written). In practice this meant that there would be glitches and incongruities when functions were called within one another for sending messages. I ended up having to re-write a good amount of my code to avoid any issues with this.</p></li>
+<li><p>d3.js data entering</p>
+<p><em>data( )</em> and <em>enter( )</em> are the PB &amp; J of D3.js. In order to bind data to the DOM (document object model) D3 using these functions to attach data to a particular web element and then to display that data in a specified form (text, circles, rectangles, etc.) Here’s an example. In the <em>ihazr</em> package, these functions are typically used for any display of the uploaded survival data and supporting visualizations (e.g. bandwidth selector).</p></li>
+</ul>
+</div>
+<div id="packing-it-up" class="section level5">
+<h5>Packing it up</h5>
+<p>Building an R package was no simple task…it was a lot of simple tasks! It was realatively easy to follow <a href="http://r-pkgs.had.co.nz/">Hadley Wickam’s book</a> on package development using his package devtools. The hardest part of all of this was writing up the documentation and deciding what license we wanted to use for <em>ihazr</em>.</p>
+<p>Currently, <em>ihazr</em> is available on CRAN. Run the example code below to check it out!</p>
+<pre class="r"><code>install.packages(&#39;ihazr&#39;)
+library(ihazr)
+library(survival)
+library(dplyr)
+
+pbc5 &lt;- pbc %&gt;%
+ slice(1:312) %&gt;%
+ select(time, status, age, edema, bili, albumin, protime) %&gt;%
+ mutate(time = time/365, status = (status==2)*1, bili = log(bili),
+ protime = log(protime))
+
+ihazr(time=pbc5[,1], status=pbc5[,2], marker=pbc5[,3:7])</code></pre>
+<p>Though it was frustrating at times, it’s been an amazing journey to supplement new code and visualizations to <em>ihazr</em>. I’ve also enjoyed leading the package submission of <em>ihazr</em> and finally seeing it available on CRAN. I’m sure like many other R users, I typically take the packages that are built for granted and rarely contemplate the time and effort teams have taken to build these packages. Through this experience, I’ve been able to practice some of my statistical background and build some muscles in coding and software development along the way. I’ve gained a new perspective for those that master software development and pacakge submission and I hope to learn more with the onset of future rotations.</p>
+</div>
+</div>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/confidence-interval/" data-toggle="tooltip" data-placement="top" title="Confidence Interval">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/ncaa-march-madness-2020/" data-toggle="tooltip" data-placement="top" title="NCAA March Madness - 2020">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/shiny" title="shiny">
+                            shiny
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/statistics" title="statistics">
+                            statistics
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href="" rel="alternate" type="application/rss+xml" title="Webb Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:kylepwebb1992@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/webbkyle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Webb Blog , 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+
+
+
+
+
+</body>
+</html>

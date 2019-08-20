@@ -6,10 +6,19 @@
     <description>Recent content in shiny on Webb Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 18 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 26 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/shiny/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Data Science Fellowship - Rotation 1</title>
+      <link>/post/data-science-fellowship-rotation-1/</link>
+      <pubDate>Tue, 26 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/data-science-fellowship-rotation-1/</guid>
+      <description>R Package Development for Survival Analysis For those that don’t know, the NIH (National Institutes of Health) is made up of 27 institutes and centers. One of those centers, the National Institute of Allergy and Infectious Dieseases (NIAID), has a special program designed to bring data scientists within the institute to gain hands-on-experience in applying and managing big data, bioinformatics strategies, and software development. NIAID’s mission is to conduct and support basic and applied research to better understand, treat, and ultimately prevent infectious, immunologic, and allergic diseases.</description>
+    </item>
     
     <item>
       <title>Confidence Interval</title>

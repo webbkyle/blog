@@ -1,0 +1,77 @@
+---
+title: Data Science Fellowship - Rotation 1
+author: Kyle Webb
+date: '2019-03-26'
+slug: data-science-fellowship-rotation-1
+categories:
+  - shiny
+  - d3
+  - statistics
+tags: [shiny, d3, statistics]
+subtitle: ''
+description: 'Interactive Hazard Regression'
+image: ''
+draft: true
+---
+
+### R Package Development for Survival Analysis
+For those that don't know, the NIH (National Institutes of Health) is made up of 27 institutes and centers. One of those centers, the National Institute of Allergy and Infectious Dieseases (NIAID), has a special program designed to bring data scientists within the institute to gain hands-on-experience in applying and managing big data, bioinformatics strategies, and software development. NIAID's mission is to conduct and support basic and applied research to better understand, treat, and ultimately prevent infectious, immunologic, and allergic diseases. My first rotation with NIAID was to work within the Division of Clinical Research (DCR) and specifically the Biostatistics Research Branch (BRB). The DCR focuses on facilitating the efficient and effective performance of NIAID research programs on both the domestic and international levels.
+
+
+My first rotation as a data science fellow with the NIH involved sending and updating packages in R. Through this process, I've learned to implement git to update and share commits with the original author of the R package. On top of this, I was able to get some experience coding in D3.js for some smoother functionality and user-interaction. This rotation has taught me the value of **planning** and how important it is to map out your code for a project. Through this post, I'll talk about the statistics behind the *ihazr* tool, the tech I used, and the challenges I faced, and (ultimately) the R package submission process.
+
+
+##### IHAZR
+
+The tool that I was working with, *ihazr* (interactive hazard regression), was built by Jason Liang using [R Shiny](https://shiny.rstudio.com/) and the [htmlwidgets](https://www.htmlwidgets.org/) package. *ihazr*, as its name suggests, is an interactive tool used for estimating the hazard function in survival analysis. While the statistical theory involved in survival analysis is extensive, there were only a few concepts I needed to fully understand for this project.
+
+* Survival Function
+* Hazard Function
+* Nelson Aalen estimator
+* Semi-parametric estimation
+
+##### D3.js
+
+Simply put, [D3.js](https://d3js.org/) is amazing. If Picasso were a data scientist, I'm pretty sure he would use it. The D3 framework allows users to bind their data to the html document, so it allows for easy transfer between actual data and web visualization. D3 allows for customizable, clickable, actionable data that you can see and investigate, so it provides the perfect interface for the **ihazr** survival diagnostic tool.  
+
+Although javascript was a new language for me, I found I could mainly pick up what was already built into *ihazr*'s D3.js file. But there were definitely some speed bumps along the way:
+
+* "===" and "=="
+
+    I noticed very quickly that javascript can regard characters and integers as equitable values. For boolean arguments in javascript, *5 == "5"* would return *true* as well as *5 == 5*. It was only when writing the third *=* that the truth argument goes to its strictest criteria. For instance, running with our example, *5 === "5"* would return *false* and *5 !== "5"* would return *true*. 
+
+* variable assignment
+
+    Variable assignment in javascript is a pain, mainly beacause you have to type more. *var* is used for general variable assignment (global or within a function/local), *const* is for (you guessed it) having a variable that never changes, and *let* only lives within a block of code, which, in javascript is seperated by curly braces. I learned there's some [controversy over var](https://dev.to/johnwolfe820/should-you-never-truly-use-var-bdi) in the javascript community, and I also discovered that writing *var x = 13* and *x = 13* would give the same result.  
+
+* [asynchronous functions](https://medium.com/codebuddies/getting-to-know-asynchronous-javascript-callbacks-promises-and-async-await-17e0673281ee)
+
+    This took some getting used to. I learned that JavaScript, unlike most programming languages, is *asynchronous* meaning the occurence of the code can happen independently from the actual program flow (the order the code was written). In practice this meant that there would be glitches and incongruities when functions were called within one another for sending messages. I ended up having to re-write a good amount of my code to avoid any issues with this.  
+
+* d3.js data entering
+
+    *data( )* and *enter( )* are the PB & J of D3.js. In order to bind data to the DOM (document object model) D3 using these functions to attach data to a particular web element and then to display that data in a specified form (text, circles, rectangles, etc.) Here's an example. In the *ihazr* package, these functions are typically used for any display of the uploaded survival data and supporting visualizations (e.g. bandwidth selector). 
+
+##### Packing it up
+
+Building an R package was no simple task...it was a lot of simple tasks! It was realatively easy to follow [Hadley Wickam's book](http://r-pkgs.had.co.nz/) on package development using his package devtools. The hardest part of all of this was writing up the documentation and deciding what license we wanted to use for *ihazr*. 
+
+Currently, *ihazr* is available on CRAN. Run the example code below to check it out! 
+
+```{r, eval=F}
+install.packages('ihazr')
+library(ihazr)
+library(survival)
+library(dplyr)
+
+pbc5 <- pbc %>%
+ slice(1:312) %>%
+ select(time, status, age, edema, bili, albumin, protime) %>%
+ mutate(time = time/365, status = (status==2)*1, bili = log(bili),
+ protime = log(protime))
+
+ihazr(time=pbc5[,1], status=pbc5[,2], marker=pbc5[,3:7])
+```
+
+Though it was frustrating at times, it's been an amazing journey to supplement new code and visualizations to *ihazr*. I've also enjoyed leading the package submission of *ihazr* and finally seeing it available on CRAN. I'm sure like many other R users, I typically take the packages that are built for granted and rarely contemplate the time and effort teams have taken to build these packages. Through this experience, I've been able to practice some of my statistical background and build some muscles in coding and software development along the way. I've gained a new perspective for those that master software development and pacakge submission and I hope to learn more with the onset of future rotations.
+

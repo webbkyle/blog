@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>statistics on Webb Blog</title>
+    <link>/categories/statistics/</link>
+    <description>Recent content in statistics on Webb Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 27 Mar 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/statistics/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>NCAA March Madness - 2020</title>
+      <link>/post/ncaa-march-madness-2020/</link>
+      <pubDate>Wed, 27 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/ncaa-march-madness-2020/</guid>
+      <description>Ah March… the birds are back (both motorized and natural), the weather is (a tiny bit) warmer, and 68 collegiate teams hash out their skills in an all-out, maddening basketball do-or-die nation-wide tournament. March is back baby!
+I love NCAA March Madness. Although I never really watch college basketball through the regular season, I find the tournament is too thrilling to ignore. Given that I have no understanding of most of the teams when the tourney starts, I have to rely on data and modeling techniques to make some sort of educated guesses.</description>
+    </item>
+    
+    <item>
+      <title>Data Science Fellowship - Rotation 1</title>
+      <link>/post/data-science-fellowship-rotation-1/</link>
+      <pubDate>Tue, 26 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/data-science-fellowship-rotation-1/</guid>
+      <description>R Package Development for Survival Analysis For those that don’t know, the NIH (National Institutes of Health) is made up of 27 institutes and centers. One of those centers, the National Institute of Allergy and Infectious Dieseases (NIAID), has a special program designed to bring data scientists within the institute to gain hands-on-experience in applying and managing big data, bioinformatics strategies, and software development. NIAID’s mission is to conduct and support basic and applied research to better understand, treat, and ultimately prevent infectious, immunologic, and allergic diseases.</description>
+    </item>
+    
+  </channel>
+</rss>
