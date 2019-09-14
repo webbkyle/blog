@@ -1,0 +1,107 @@
+---
+title: CBO Historical Budget Data
+author: Kyle Webb
+date: '2019-09-10'
+slug: cbo-historical-budget-data
+categories:
+  - politics
+tags: [politics]
+subtitle: ''
+description: 'Debt held by the United States public during the Clinton administration'
+image: ''
+draft: true
+---
+
+```{r import_data, include = FALSE}
+library(readxl); library(plotly); library(dplyr); library(magrittr)
+
+debt_B = read_xlsx("data/CBO_2018.xlsx", sheet = "Debt($B)")
+debt_B %<>% rename(debt = `Debt Held by the Publica`) %>% 
+  mutate(debt = debt / 1000)
+debt_gdp = read_xlsx("data/CBO_2018.xlsx", sheet = "Debt(%GDP)")
+debt_gdp %<>% rename(debt = `Debt Held by the Publica`)
+debt_n = merge(debt_B, debt_gdp, by = 'Year')
+
+rev_B = read_xlsx("data/CBO_2018.xlsx", sheet = "Revenues($B)")
+rev_gdp = read_xlsx("data/CBO_2018.xlsx", sheet = "Revenues(%GDP)")
+rev_n = merge(rev_B, rev_gdp, by = 'Year')
+
+```
+
+
+
+```{r plotly_1, echo = FALSE}
+ay1 <- list(
+  tickfont = list(color = '#1f77b4'),
+  title = ""
+)
+
+ay2 <- list(
+  tickfont = list(color = '#ff7f0e'),
+  overlaying = "y",
+  side = "right",
+  title = ""
+)
+
+m <- list(
+  l = 50,
+  r = 50,
+  b = 100,
+  t = 100,
+  pad = 4
+)
+
+p <- plot_ly(data = debt_n) %>% 
+  add_markers(x = ~Year, y = ~debt.x, name = "$ (Trillions)", showlegend = FALSE) %>% 
+  add_markers(x = ~Year, y = ~debt.y, yaxis = "y2", name = "% GDP") %>% 
+  layout(
+    title = "Debt Held by the US Public", yaxis = ay1, yaxis2 = ay2, margin = m
+  )
+p
+```
+
+
+The Congressional Budget Office (CBO) most recent release of their historical budget data (from May 2019) goes back to 1965 and records the debt estimates in US dollars (blue) as well as percentage of GDP (orange) for that year. 
+
+According to the [January release](https://www.cbo.gov/system/files?file=2019-01/54918-Outlook.pdf) from the CBO, debt held by the public is "projected to grow
+steadily, reaching 93 percent of GDP in 2029 (its highest level since just after World War II) and
+about 150 percent of GDP in 2049—far higher than it has ever been." 
+What I find interesting about this graph (besides the obvious upward trend in debt we're facing) is the drastic downward turn from 1993 to 2001. I looked into the details of the Clinton administration and more of the CBO data to get a clearer picture as to what might have caused the decrease in debt rates.  
+
+#### Decreased defense spending?
+
+Most people attribute the downward swing in percentage of GDP debt from 1993 to 2001 as the Clinton administration's action to lower defense spending and a relatively low commitment to defense interests. 
+
+#### Outlays
+
+An outlay is defined as a total cost or expenditure required or incurred in acquiring an asset, achieving an objective, or executing a decision. For the US government, that can be **a lot** of things. One of the obvious markers for success in spending during the Clinton administration were the constant decrease in outlay spending relative to GDP. While most administrations were erratic in their outlay spending habits, the percentage of GDP for outlay spending decreased by approximately 0.4 % per year under the Clinton administration. 
+
+```{r outlays, echo = FALSE}
+
+m <- list(
+  l = 50,
+  r = 50,
+  b = 50,
+  t = 50,
+  pad = 4
+)
+
+ay1 <- list(title = "")
+
+p <- plot_ly(data = debt_n) %>% 
+  add_markers(x = ~Year, y = ~Outlays.y, showlegend = FALSE) %>% 
+  layout(
+    title = "Outlay Spending (% GDP)", yaxis = ay1, margin = m
+  )
+p
+
+```
+
+When diving deeper into the outlays from the CBO data, it becomes apparent why the years under the Clinton administration were reducing debt, compared to other years in US history. 
+
+#### Revenue Increase
+
+Revenue boomed during the 1990's tech boom and the US government hauled in more from tax revenue than it ever had.
+
+
+

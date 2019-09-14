@@ -6,29 +6,10 @@
     <description>Recent content in shiny on Webb Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 31 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/shiny/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Data Science Fellowship - Rotation 1</title>
-      <link>/post/data-science-fellowship-rotation-1/</link>
-      <pubDate>Tue, 26 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/data-science-fellowship-rotation-1/</guid>
-      <description>R Package Development for Survival Analysis For those that don’t know, the NIH (National Institutes of Health) is made up of 27 institutes and centers. One of those centers, the National Institute of Allergy and Infectious Dieseases (NIAID), has a special program designed to bring data scientists within the institute to gain hands-on-experience in applying and managing big data, bioinformatics strategies, and software development. NIAID’s mission is to conduct and support basic and applied research to better understand, treat, and ultimately prevent infectious, immunologic, and allergic diseases.</description>
-    </item>
-    
-    <item>
-      <title>Confidence Interval</title>
-      <link>/post/confidence-interval/</link>
-      <pubDate>Mon, 18 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/confidence-interval/</guid>
-      <description>https://webb-kyle.shinyapps.io/shinyapp-confidence-int/
-This shiny app calculates confidence intervals from normal distributions with subsampling criteria specified by the user. Number of confidence intervals (Samples) is also defined by the user as well as the mean and standard deviation of the distribution. Note the discrepencies between empirical and theoretical error rates. These are pronounced when subsampling numbers are low. This example demonstrates one of the pitfalls with frequentist statistics and a reliance upon confidence interval estimation.</description>
-    </item>
     
     <item>
       <title>My first shiny app</title>

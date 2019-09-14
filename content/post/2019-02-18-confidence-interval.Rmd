@@ -4,8 +4,8 @@ author: Kyle Webb
 date: '2019-02-18'
 slug: confidence-interval
 categories:
-  - shiny
-tags: [shiny]
+  - statistics
+tags: [statistics]
 subtitle: ''
 description: 'A confidence interval simulator showing imperfections between theoretical and empirical type 1 error rates'
 image: ''
