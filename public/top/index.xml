@@ -12,12 +12,21 @@
     
     <item>
       <title></title>
-      <link>/top/links/</link>
+      <link>/top/resume/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/top/links/</guid>
-      <description>David Brooks David Brooks https://www.nytimes.com/column/david-brooks
- </description>
+      <guid>/top/resume/</guid>
+      <description>Kyle Webb Resume Education  Masters of Science in Statistics
+Virginia Tech Polytechnic Institute and State University
+August 2015 - December 2016
+ Bachelors of Science in Statistics with a Minor in Latin
+Wake Forest University
+August 2011 - May 2015
+  Experience  National Institute of Allergy and Infectious Diseases
+Data Science Fellow
+Rockville, MD
+June 2018 - Present
+ Evaluated models for Human Phenotype Ontology assignment using EMRs Assisted bioinformatics team with immunological genetic and proteomic studies</description>
     </item>
     
   </channel>

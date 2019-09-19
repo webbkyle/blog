@@ -68,8 +68,10 @@
         <div id="huxblog_navbar">
             <div class="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
+                    
+                    
                     <li>
-                        <a href="/">Home</a>
+                        <a href="/categories/data-science">data science</a>
                     </li>
                     
                     <li>
@@ -84,7 +86,7 @@
                         <a href="/categories/statistics">statistics</a>
                     </li>
                     
-                    
+
 		    
                         <li><a href=""></a></li>
                     
@@ -143,8 +145,8 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/statistics" title="statistics">
-                            statistics
+                        <a class="tag" href="/tags/data-science" title="data science">
+                            data science
                         </a>
                         
                     </div>
@@ -190,17 +192,11 @@
 <p>My first rotation as a data science fellow with the NIH involved sending and updating packages in R. Through this process, I’ve learned to implement git to update and share commits with the original author of the R package. On top of this, I was able to get some experience coding in D3.js for some smoother functionality and user-interaction. This rotation has taught me the value of <strong>planning</strong> and how important it is to map out your code for a project. Through this post, I’ll talk about the statistics behind the <em>ihazr</em> tool, the tech I used, and the challenges I faced, and (ultimately) the R package submission process.</p>
 <div id="ihazr" class="section level5">
 <h5>IHAZR</h5>
-<p>The tool that I was working with, <em>ihazr</em> (interactive hazard regression), was built by Jason Liang using <a href="https://shiny.rstudio.com/">R Shiny</a> and the <a href="https://www.htmlwidgets.org/">htmlwidgets</a> package. <em>ihazr</em>, as its name suggests, is an interactive tool used for estimating the hazard function in survival analysis. While the statistical theory involved in survival analysis is extensive, there were only a few concepts I needed to fully understand for this project.</p>
-<ul>
-<li>Survival Function</li>
-<li>Hazard Function</li>
-<li>Nelson Aalen estimator</li>
-<li>Semi-parametric estimation</li>
-</ul>
+<p>I started by building upon original R code from the author’s github page. The package in development, <em>ihazr</em>, was built using <a href="https://shiny.rstudio.com/">R Shiny</a> and the <a href="https://www.htmlwidgets.org/">htmlwidgets</a> package. <em>ihazr</em>, as its name suggests, is an interactive tool used for estimating the hazard function in survival analysis. The package allows users to estimate a semi-parametric conditional hazard function for their survival data using the Nelson-Aalen estimator. While the Nelson-Aalen estimator and the Kaplen-Meier estimator are asymptotically equivalent, the Nelson-Aalen estimator can perform slightly better and it has been shown to provide better results for increasing failure rates.</p>
 </div>
 <div id="d3.js" class="section level5">
 <h5>D3.js</h5>
-<p>Simply put, <a href="https://d3js.org/">D3.js</a> is amazing. If Picasso were a data scientist, I’m pretty sure he would use it. The D3 framework allows users to bind their data to the html document, so it allows for easy transfer between actual data and web visualization. D3 allows for customizable, clickable, actionable data that you can see and investigate, so it provides the perfect interface for the <strong>ihazr</strong> survival diagnostic tool.</p>
+<p>Simply put, <a href="https://d3js.org/">D3.js</a> is amazing. If Picasso were a data scientist, I’m pretty sure he would use D3. The D3 framework allows users to bind their data to the html document, so it allows for easy transfer between actual data and web visualization. D3 allows for customizable, clickable, actionable data that you can see and investigate, so it provides the perfect interface for <em>ihazr</em>.</p>
 <p>Although javascript was a new language for me, I found I could mainly pick up what was already built into <em>ihazr</em>’s D3.js file. But there were definitely some speed bumps along the way:</p>
 <ul>
 <li><p>“===” and “==”</p>
@@ -210,14 +206,15 @@
 <li><p><a href="https://medium.com/codebuddies/getting-to-know-asynchronous-javascript-callbacks-promises-and-async-await-17e0673281ee">asynchronous functions</a></p>
 <p>This took some getting used to. I learned that JavaScript, unlike most programming languages, is <em>asynchronous</em> meaning the occurence of the code can happen independently from the actual program flow (the order the code was written). In practice this meant that there would be glitches and incongruities when functions were called within one another for sending messages. I ended up having to re-write a good amount of my code to avoid any issues with this.</p></li>
 <li><p>d3.js data entering</p>
-<p><em>data( )</em> and <em>enter( )</em> are the PB &amp; J of D3.js. In order to bind data to the DOM (document object model) D3 using these functions to attach data to a particular web element and then to display that data in a specified form (text, circles, rectangles, etc.) Here’s an example. In the <em>ihazr</em> package, these functions are typically used for any display of the uploaded survival data and supporting visualizations (e.g. bandwidth selector).</p></li>
+<p><em>data( )</em> and <em>enter( )</em> are the PB &amp; J of D3.js. In order to bind data to the DOM (document object model) D3 using these functions to attach data to a particular web element and then to display that data in a specified form (text, circles, rectangles, etc.) In the <em>ihazr</em> package, these functions are typically used for any display of the uploaded survival data and supporting visualizations (e.g. bandwidth selector).</p></li>
 </ul>
 </div>
 <div id="packing-it-up" class="section level5">
 <h5>Packing it up</h5>
 <p>Building an R package was no simple task…it was a lot of simple tasks! It was realatively easy to follow <a href="http://r-pkgs.had.co.nz/">Hadley Wickam’s book</a> on package development using his package devtools. The hardest part of all of this was writing up the documentation and deciding what license we wanted to use for <em>ihazr</em>.</p>
-<p>Currently, <em>ihazr</em> is available on CRAN. Run the example code below to check it out!</p>
-<pre class="r"><code>install.packages(&#39;ihazr&#39;)
+<p>Currently, <em>ihazr</em> is <strong>not</strong> available on CRAN, but you can easily install the package in R from my github page. Run the example code below to check it out.</p>
+<pre class="r"><code>library(devtools)
+install_github(&quot;webbkyle/ihazr&quot;)
 library(ihazr)
 library(survival)
 library(dplyr)
@@ -229,7 +226,7 @@ pbc5 &lt;- pbc %&gt;%
  protime = log(protime))
 
 ihazr(time=pbc5[,1], status=pbc5[,2], marker=pbc5[,3:7])</code></pre>
-<p>Though it was frustrating at times, it’s been an amazing journey to supplement new code and visualizations to <em>ihazr</em>. I’ve also enjoyed leading the package submission of <em>ihazr</em> and finally seeing it available on CRAN. I’m sure like many other R users, I typically take the packages that are built for granted and rarely contemplate the time and effort teams have taken to build these packages. Through this experience, I’ve been able to practice some of my statistical background and build some muscles in coding and software development along the way. I’ve gained a new perspective for those that master software development and pacakge submission and I hope to learn more with the onset of future rotations.</p>
+<p>Though it was frustrating at times, it’s been an amazing journey to supplement new code and visualizations to <em>ihazr</em>. I’ve also enjoyed going through <em>devtools</em> and making the CRAN submission an easier task once the final product of <em>ihazr</em> is ready. I’m sure like many other R users, I typically take the packages for granted and rarely contemplate the time and effort teams have taken to build the statistical software. Through this experience, I’ve been able to practice some of my statistical background and build some muscles in coding and software development along the way. I’ve gained a new perspective for software developers and product deployment and I hope to learn more through my work.</p>
 </div>
 </div>
 
@@ -273,7 +270,21 @@ ihazr(time=pbc5[,1], status=pbc5[,2], marker=pbc5[,3:7])</code></pre>
                         
                         
                         
+                        <a href="/tags/data-science" title="data science">
+                            data science
+                        </a>
                         
+                        
+                        
+                        <a href="/tags/politics" title="politics">
+                            politics
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/sports" title="sports">
+                            sports
+                        </a>
                         
                         
                         
@@ -313,7 +324,7 @@ ihazr(time=pbc5[,1], status=pbc5[,2], marker=pbc5[,3:7])</code></pre>
                    
                     
                     <li>
-                        <a href="mailto:kylepwebb1992@gmail.com">
+                        <a href="mailto:webb.kyle@outlook.com">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>

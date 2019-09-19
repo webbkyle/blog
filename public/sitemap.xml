@@ -3,13 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/post/cbo-historical-budget-data/</loc>
-    <lastmod>2019-09-10T00:00:00+00:00</lastmod>
+    <loc>/post/cbo-data-may/</loc>
+    <lastmod>2019-09-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/post/ncaa-march-madness-2020/</loc>
-    <lastmod>2019-03-27T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -28,7 +28,11 @@
   </url>
   
   <url>
-    <loc>/top/links/</loc>
+    <loc>/search/placeholder/</loc>
+  </url>
+  
+  <url>
+    <loc>/top/resume/</loc>
   </url>
   
   <url>
@@ -38,7 +42,12 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-09-10T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-19T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/search/</loc>
     <priority>0</priority>
   </url>
   
@@ -54,43 +63,55 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-09-10T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-19T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/data-science/</loc>
+    <lastmod>2019-09-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/data-science/</loc>
+    <lastmod>2019-09-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/politics/</loc>
-    <lastmod>2019-09-10T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/politics/</loc>
-    <lastmod>2019-09-10T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/sports/</loc>
-    <lastmod>2019-03-27T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/sports/</loc>
-    <lastmod>2019-03-27T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/statistics/</loc>
-    <lastmod>2019-03-27T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/statistics/</loc>
-    <lastmod>2019-03-27T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

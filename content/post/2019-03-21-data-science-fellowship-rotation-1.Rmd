@@ -4,8 +4,8 @@ author: Kyle Webb
 date: '2019-03-26'
 slug: data-science-fellowship-rotation-1
 categories:
-  - statistics
-tags: [statistics]
+  - data science
+tags: [data science]
 subtitle: ''
 description: 'Interactive Hazard Regression'
 image: ''
@@ -21,16 +21,11 @@ My first rotation as a data science fellow with the NIH involved sending and upd
 
 ##### IHAZR
 
-The tool that I was working with, *ihazr* (interactive hazard regression), was built by Jason Liang using [R Shiny](https://shiny.rstudio.com/) and the [htmlwidgets](https://www.htmlwidgets.org/) package. *ihazr*, as its name suggests, is an interactive tool used for estimating the hazard function in survival analysis. While the statistical theory involved in survival analysis is extensive, there were only a few concepts I needed to fully understand for this project.
-
-* Survival Function
-* Hazard Function
-* Nelson Aalen estimator
-* Semi-parametric estimation
+I started by building upon original R code from the author's github page. The package in development, *ihazr*, was built using [R Shiny](https://shiny.rstudio.com/) and the [htmlwidgets](https://www.htmlwidgets.org/) package. *ihazr*, as its name suggests, is an interactive tool used for estimating the hazard function in survival analysis. The package allows users to estimate a semi-parametric conditional hazard function for their survival data using the Nelson-Aalen estimator. While the Nelson-Aalen estimator and the Kaplen-Meier estimator are asymptotically equivalent, the Nelson-Aalen estimator can perform slightly better and it has been shown to provide better results for increasing failure rates. 
 
 ##### D3.js
 
-Simply put, [D3.js](https://d3js.org/) is amazing. If Picasso were a data scientist, I'm pretty sure he would use it. The D3 framework allows users to bind their data to the html document, so it allows for easy transfer between actual data and web visualization. D3 allows for customizable, clickable, actionable data that you can see and investigate, so it provides the perfect interface for the **ihazr** survival diagnostic tool.  
+Simply put, [D3.js](https://d3js.org/) is amazing. If Picasso were a data scientist, I'm pretty sure he would use D3. The D3 framework allows users to bind their data to the html document, so it allows for easy transfer between actual data and web visualization. D3 allows for customizable, clickable, actionable data that you can see and investigate, so it provides the perfect interface for *ihazr*.  
 
 Although javascript was a new language for me, I found I could mainly pick up what was already built into *ihazr*'s D3.js file. But there were definitely some speed bumps along the way:
 
@@ -44,20 +39,21 @@ Although javascript was a new language for me, I found I could mainly pick up wh
 
 * [asynchronous functions](https://medium.com/codebuddies/getting-to-know-asynchronous-javascript-callbacks-promises-and-async-await-17e0673281ee)
 
-    This took some getting used to. I learned that JavaScript, unlike most programming languages, is *asynchronous* meaning the occurence of the code can happen independently from the actual program flow (the order the code was written). In practice this meant that there would be glitches and incongruities when functions were called within one another for sending messages. I ended up having to re-write a good amount of my code to avoid any issues with this.  
+    This took some getting used to. I learned that JavaScript, unlike most programming languages, is *asynchronous* meaning the occurence of the code can happen independently from the actual program flow (the order the code was written). In practice this meant that there would be glitches and incongruities when functions were called within one another for sending messages. I ended up having to re-write a good amount of my code to avoid any issues with this.
 
 * d3.js data entering
 
-    *data( )* and *enter( )* are the PB & J of D3.js. In order to bind data to the DOM (document object model) D3 using these functions to attach data to a particular web element and then to display that data in a specified form (text, circles, rectangles, etc.) Here's an example. In the *ihazr* package, these functions are typically used for any display of the uploaded survival data and supporting visualizations (e.g. bandwidth selector). 
+    *data( )* and *enter( )* are the PB & J of D3.js. In order to bind data to the DOM (document object model) D3 using these functions to attach data to a particular web element and then to display that data in a specified form (text, circles, rectangles, etc.) In the *ihazr* package, these functions are typically used for any display of the uploaded survival data and supporting visualizations (e.g. bandwidth selector). 
 
 ##### Packing it up
 
 Building an R package was no simple task...it was a lot of simple tasks! It was realatively easy to follow [Hadley Wickam's book](http://r-pkgs.had.co.nz/) on package development using his package devtools. The hardest part of all of this was writing up the documentation and deciding what license we wanted to use for *ihazr*. 
 
-Currently, *ihazr* is available on CRAN. Run the example code below to check it out! 
+Currently, *ihazr* is **not** available on CRAN, but you can easily install the package in R from my github page. Run the example code below to check it out.
 
 ```{r, eval=F}
-install.packages('ihazr')
+library(devtools)
+install_github("webbkyle/ihazr")
 library(ihazr)
 library(survival)
 library(dplyr)
@@ -71,5 +67,5 @@ pbc5 <- pbc %>%
 ihazr(time=pbc5[,1], status=pbc5[,2], marker=pbc5[,3:7])
 ```
 
-Though it was frustrating at times, it's been an amazing journey to supplement new code and visualizations to *ihazr*. I've also enjoyed leading the package submission of *ihazr* and finally seeing it available on CRAN. I'm sure like many other R users, I typically take the packages that are built for granted and rarely contemplate the time and effort teams have taken to build these packages. Through this experience, I've been able to practice some of my statistical background and build some muscles in coding and software development along the way. I've gained a new perspective for those that master software development and pacakge submission and I hope to learn more with the onset of future rotations.
+Though it was frustrating at times, it's been an amazing journey to supplement new code and visualizations to *ihazr*. I've also enjoyed going through *devtools* and making the CRAN submission an easier task once the final product of *ihazr* is ready. I'm sure like many other R users, I typically take the packages for granted and rarely contemplate the time and effort teams have taken to build the statistical software. Through this experience, I've been able to practice some of my statistical background and build some muscles in coding and software development along the way. I've gained a new perspective for software developers and product deployment and I hope to learn more through my work.
 

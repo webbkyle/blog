@@ -1,12 +1,12 @@
 ---
 title: NCAA March Madness - 2020
 author: Kyle Webb
-date: '2019-03-27'
+date: '2019-09-17'
 slug: ncaa-march-madness-2020
 categories:
-  - statistics
+  - data science
   - sports
-tags: [statistics, sports]
+tags: [data science, sports]
 subtitle: ''
 description: 'How I built my brackets and how they eventually BUSTED'
 image: ''
@@ -18,7 +18,7 @@ output:
 
 Ah March... the birds are back (both motorized and natural), the weather is (a tiny bit) warmer, and 68 collegiate teams hash out their skills in an all-out, maddening basketball do-or-die nation-wide tournament. March is back baby!
 
-I love NCAA March Madness. Although I never really watch college basketball through the regular season, I find the tournament is too thrilling to ignore. Given that I have no understanding of most of the teams when the tourney starts, I have to rely on data and modeling techniques to make *some* sort of educated guesses. I tried last year to model tournament games, but with only two days left until submission for my brackets, I was pushed to exhaustion and eventually ended up just copying someone's code from Kaggle. I knew that this year I would need to step up my game in terms of preperation - *especially* in terms of data cleaning and predictive modeling. 
+I love NCAA March Madness. Although I never really watch college basketball through the regular season, I find the tournament too thrilling to ignore. Given that I have no understanding of most of the teams when the tourney starts, I have to rely on data and modeling techniques to make *some* sort of educated guesses. I tried last year to model tournament games, but with only two days left until submission for my brackets, I was pushed to exhaustion and eventually ended up just copying someone's code from Kaggle. I knew that this year I would need to step up my game in terms of preperation - *especially* in terms of data collection and cleaning. 
 
 #### Data
 

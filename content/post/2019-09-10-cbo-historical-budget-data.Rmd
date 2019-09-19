@@ -1,15 +1,14 @@
 ---
-title: CBO Historical Budget Data
+title: CBO Data (May 2019 release)
 author: Kyle Webb
-date: '2019-09-10'
-slug: cbo-historical-budget-data
+date: '2019-09-19'
+slug: cbo-data-may
 categories:
   - politics
 tags: [politics]
 subtitle: ''
-description: 'Debt held by the United States public during the Clinton administration'
+description: 'Debt held by the United States public (specifically during the Clinton administration)'
 image: ''
-draft: true
 ---
 
 ```{r import_data, include = FALSE}
@@ -17,18 +16,26 @@ library(readxl); library(plotly); library(dplyr); library(magrittr)
 
 debt_B = read_xlsx("data/CBO_2018.xlsx", sheet = "Debt($B)")
 debt_B %<>% rename(debt = `Debt Held by the Publica`) %>% 
-  mutate(debt = debt / 1000)
+  mutate(debt = debt / 1000,
+         Revenues = Revenues / 1000)
 debt_gdp = read_xlsx("data/CBO_2018.xlsx", sheet = "Debt(%GDP)")
 debt_gdp %<>% rename(debt = `Debt Held by the Publica`)
 debt_n = merge(debt_B, debt_gdp, by = 'Year')
+debt_n %<>% mutate(Clinton = factor(ifelse(Year %in% seq(1992, 2000, 1), 1, 0 )))
 
-rev_B = read_xlsx("data/CBO_2018.xlsx", sheet = "Revenues($B)")
+outlay_gdp = read_xlsx("data/CBO_2018.xlsx", sheet = "Outlays(%GDP)")
+def_gdp = read_xlsx("data/CBO_2018.xlsx", sheet = "Disc_Outlays(%GDP)")
+outlay_gdp = merge(outlay_gdp, def_gdp, by = 'Year')
+
 rev_gdp = read_xlsx("data/CBO_2018.xlsx", sheet = "Revenues(%GDP)")
-rev_n = merge(rev_B, rev_gdp, by = 'Year')
+
+mand_gdp = read_xlsx("data/CBO_2018.xlsx", sheet = "Mand_Outlays(%GDP)")
 
 ```
 
-
+The Congressional Budget Office's May release of their data goes back to 1965 and records yearly debt estimates in US dollars (blue) and percentage of GDP (orange). According to the [January release](https://www.cbo.gov/system/files?file=2019-01/54918-Outlook.pdf) from the CBO, debt held by the public is "projected to grow
+steadily, reaching 93 percent of GDP in 2029 (its highest level since just after World War II) and
+about 150 percent of GDP in 2049—far higher than it has ever been." 
 
 ```{r plotly_1, echo = FALSE}
 ay1 <- list(
@@ -61,47 +68,133 @@ p
 ```
 
 
-The Congressional Budget Office (CBO) most recent release of their historical budget data (from May 2019) goes back to 1965 and records the debt estimates in US dollars (blue) as well as percentage of GDP (orange) for that year. 
-
-According to the [January release](https://www.cbo.gov/system/files?file=2019-01/54918-Outlook.pdf) from the CBO, debt held by the public is "projected to grow
-steadily, reaching 93 percent of GDP in 2029 (its highest level since just after World War II) and
-about 150 percent of GDP in 2049—far higher than it has ever been." 
-What I find interesting about this graph (besides the obvious upward trend in debt we're facing) is the drastic downward turn from 1993 to 2001. I looked into the details of the Clinton administration and more of the CBO data to get a clearer picture as to what might have caused the decrease in debt rates.  
-
-#### Decreased defense spending?
-
-Most people attribute the downward swing in percentage of GDP debt from 1993 to 2001 as the Clinton administration's action to lower defense spending and a relatively low commitment to defense interests. 
+What I find interesting about this graph (besides the obvious upward trend in in the most recent years) is the drastic downward turn from 1993 to 2001. I looked into the details of the Clinton administration and more of the CBO data to get a clearer picture of this phenomenon. 
 
 #### Outlays
 
-An outlay is defined as a total cost or expenditure required or incurred in acquiring an asset, achieving an objective, or executing a decision. For the US government, that can be **a lot** of things. One of the obvious markers for success in spending during the Clinton administration were the constant decrease in outlay spending relative to GDP. While most administrations were erratic in their outlay spending habits, the percentage of GDP for outlay spending decreased by approximately 0.4 % per year under the Clinton administration. 
+An outlay is defined as a total cost or expenditure required or incurred in acquiring an asset, achieving an objective, or executing a decision. For the US government, this could mean **a lot** of different things. 
+
+One of the obvious markers for success in spending during the Clinton administration was the constant decrease in outlay spending relative to GDP. While most administrations were erratic in their outlay spending habits, the percentage of GDP for outlay spending decreased by approximately 0.4 % per year during the Clinton administration. 
 
 ```{r outlays, echo = FALSE}
-
-m <- list(
-  l = 50,
-  r = 50,
-  b = 50,
-  t = 50,
-  pad = 4
-)
 
 ay1 <- list(title = "")
 
 p <- plot_ly(data = debt_n) %>% 
-  add_markers(x = ~Year, y = ~Outlays.y, showlegend = FALSE) %>% 
+  add_markers(x = ~Year, y = ~Outlays.y, showlegend = FALSE, color = ~Clinton,
+              colors = c("#132B43", "#56B1F7"),
+              hoverinfo = 'text', 
+              text = ~paste0("(", Year, ", ", Outlays.y, ")")) %>% 
   layout(
-    title = "Outlay Spending (% GDP)", yaxis = ay1, margin = m
+    title = "Outlay Spending (% GDP)", yaxis = ay1
   )
 p
 
 ```
 
-When diving deeper into the outlays from the CBO data, it becomes apparent why the years under the Clinton administration were reducing debt, compared to other years in US history. 
+When diving deeper into the outlays, it becomes apparent why the years under the Clinton administration were reducing debt. 
+
+```{r outlays_spec, echo = FALSE}
+
+ay1 <- list(title = "")
+
+p <- plot_ly(data = outlay_gdp) %>% 
+  add_lines(x = ~Year, y = ~Defense, name = "Defense") %>% 
+  add_lines(x = ~Year, y = ~Nondefense, name = "Nondefense") %>% 
+  add_lines(x = ~Year, y = ~`Programmatic Outlaysa`, name = "Programmatic") %>% 
+  add_lines(x = ~Year, y = ~`Offsetting Receipts`, name = "Offsetting Receipts") %>% 
+  add_lines(x = ~Year, y = ~`Net Interest`, name = "Net Interest") %>% 
+  add_lines(x = ~Year, y = ~Total.x, name = "Total") %>% 
+  layout(
+    title = "Outlay Spending (% GDP)", yaxis = ay1
+  )
+p
+
+```
+
+The two major impacts were **discretionary spending** (Defense and Nondefense) and **programmatic spending**. Offsetting receipts are deducted from the gross budget of outlays and account for any income for bussiness-like activities (e.g. sale of governement owned land or renting of properties). Net interest accounts for interest paid to the public as interest on the Federal debt. 
+
+Most people attribute the downward swing of GDP debt from 1993 to 2001 to the Clinton administration's action to lower defense spending and a relatively low commitment to US military interests. While 1999-2001 show the lowest defense spending since 1965, the other important piece of discretionary spending is the nondefense spending. Nondefense discretionary spending can include healthcare and health research, education and training, economic security, and law enforcement and governence (for more details see [here](https://www.cbpp.org/research/federal-budget/policy-basics-non-defense-discretionary-programs)). The budget during the 90's held constant nondefense spending, which was critical for debt deflation.
+
+In addition to discretionary spending, programmatic spending (mandatory outlays) also decreased under the Clinton administration. In fact, programmatic spending has 0.73 correlation coefficient with debt as a percentage of GDP. Breaking up programmatic spending, we can see the main drivers below. 
+
+```{r mand_spending, echo = FALSE, warning = FALSE}
+ay1 <- list(title = "")
+
+p <- plot_ly(data = mand_gdp) %>% 
+  add_lines(x = ~Year, y = ~`Social Security`, name = "Social Security") %>% 
+  add_lines(x = ~Year, y = ~Medicarea, name = "Medicare") %>% 
+  add_lines(x = ~Year, y = ~`Medicaid`, name = "Medicaid") %>% 
+  add_lines(x = ~Year, y = ~`Income Securityb`, name = "Income Security") %>% 
+  add_lines(x = ~Year, y = ~`Federal Civilian and Military Retirement`, name = "Federal Civilian and \n Military Retirement") %>% 
+  add_lines(x = ~Year, y = ~`Veterans' Programs`, name = "Veterans' Programs") %>% 
+  add_lines(x = ~Year, y = ~`Other Programs`, name = "Other Programs") %>% 
+  add_lines(x = ~Year, y = ~`Offsetting Receipts`, name = "Offsetting Receipts") %>% 
+  layout(
+    title = "Programmatic Spending (% GDP)", yaxis = ay1
+  )
+p
+```
+
+Notice the small dips from 1995 - 2000 in Social Security, Medicare, and Income Security. These were years when Republicans took majority in the House and Senate and started cutting back on mandatory spending. Notice too the large drop from 1991 to 1993 in "Other Programs" which are essentially entitlement programs funded by the govenerment (e.g. SNAP, Earned Income Tax Credit, Unemployment Insurance, etc.) I'm not sure what these "Other Programs" were, but this period had quite an effect on overall outlay spending. 
 
 #### Revenue Increase
 
-Revenue boomed during the 1990's tech boom and the US government hauled in more from tax revenue than it ever had.
+Revenue soared during the 1990's tech boom and the US government hauled in more from tax revenue than it ever had. Here's an overlay of this data from the original plot on debt:
 
+```{r plotly_2, echo = FALSE}
+ay1 <- list(
+  title = "$ (Trillions)"
+)
 
+ay2 <- list(
+  overlaying = "y",
+  side = "right",
+  title = "% GDP"
+)
 
+m <- list(
+  l = 50,
+  r = 50,
+  b = 100,
+  t = 100,
+  pad = 4
+)
+
+p <- plot_ly(data = debt_n) %>% 
+  add_markers(x = ~Year, y = ~debt.x, yaxis = "y1", name = "Debt $", showlegend = FALSE) %>% 
+  add_markers(x = ~Year, y = ~debt.y, yaxis = "y2", name = "Debt % GDP", showlegend = FALSE) %>% 
+  add_markers(x = ~Year, y = ~Revenues.x, yaxis = "y1", name = "Revenue $", showlegend = FALSE) %>% 
+  add_markers(x = ~Year, y = ~Revenues.y, yaxis = "y2", name = "Revenue % GDP", showlegend = FALSE) %>% 
+  layout(
+    title = "", yaxis = ay1, yaxis2 = ay2, margin = m, legend = list(x = .1, y = .9)
+  )
+p
+```
+
+There are a number of categories when it comes to revenue, but the individual income tax, payroll tax, and corporate income taxes are the main contributors.
+
+```{r rev, echo = FALSE}
+ay1 <- list(title = "")
+
+p <- plot_ly(data = rev_gdp) %>% 
+  add_lines(x = ~Year, y = ~`Individual\nIncome Taxes`, name = "Individual\nIncome Taxes") %>% 
+  add_lines(x = ~Year, y = ~`Payroll Taxes`, name = "Payroll Taxes") %>% 
+  add_lines(x = ~Year, y = ~`Corporate\nIncome Taxes`, name = "Corporate\nIncome Taxes") %>% 
+  add_lines(x = ~Year, y = ~`Excise Taxes`, name = "Excise Taxes") %>% 
+  add_lines(x = ~Year, y = ~`Estate and\nGift Taxes`, name = "Estate and\nGift Taxes") %>% 
+  add_lines(x = ~Year, y = ~`Customs Duties`, name = "Customs Duties") %>% 
+  add_lines(x = ~Year, y = ~`Miscellaneous Receipts`, name = "Miscellaneous Receipts") %>% 
+  layout(
+    title = "Revenue (% GDP)", yaxis = ay1
+  )
+p
+```
+
+#### Summary
+
+While pessimists argue that a growing national debt is inevitable, I would point to the years from 1996 to 2001, where **GDP percentage of debt dropped 15.5%** and **overal debt decreased by $414.5 billion**. With the right policies, through non-partisan cooperation, I believe the national debt can decrease. All that's needed is the right leadership, and right leadership will directly follow from an informed and politically active Republic.  
+
+The national debt may seem like a leaky faucet that's only now starting to flood the basement, but I believe the damage can be fixed. Political pundits advocating for many of the United States' current issues - immigration, education, healthcare, etc - need to ask the questions: "How much will this cost?" and "How immediate is this expenditure?" I don't believe enough people are asking these questions (at least not out loud). 
+
+The major teaching point from the 90's shows that the US debt can be quelled and the government can run a surplus under right action and cooperative politics. The major issue for our country today is how to achieve debt consolidation. Through an obstinate and informed people, I think right or left-led administrations can successively curb the spending spree and help us pay for policy issues with a good conscience.

@@ -11,9 +11,18 @@
     
     
     <item>
+      <title>data science</title>
+      <link>/categories/data-science/</link>
+      <pubDate>Tue, 17 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/data-science/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>politics</title>
       <link>/categories/politics/</link>
-      <pubDate>Tue, 10 Sep 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 19 Sep 2019 00:00:00 +0000</pubDate>
       
       <guid>/categories/politics/</guid>
       <description></description>
@@ -22,7 +31,7 @@
     <item>
       <title>sports</title>
       <link>/categories/sports/</link>
-      <pubDate>Wed, 27 Mar 2019 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 17 Sep 2019 00:00:00 +0000</pubDate>
       
       <guid>/categories/sports/</guid>
       <description></description>
@@ -31,7 +40,7 @@
     <item>
       <title>statistics</title>
       <link>/categories/statistics/</link>
-      <pubDate>Wed, 27 Mar 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 18 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>/categories/statistics/</guid>
       <description></description>
