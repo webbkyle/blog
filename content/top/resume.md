@@ -1,4 +1,4 @@
-## Kyle Webb Resume
+## Kyle Webb
 
 
 
@@ -38,7 +38,7 @@ Blacksburg, VA
 Intern  
 Kingsport, TN  
 *May - August 2016*
-  - Analyzed polymer strength using statistical multiple comparison testing
+  - Analyzed polymer strength through multiple comparison hypothesis testing
   - Implemented response surface design to explain yield of cigarette plugs
   - Collaborated with lab technicians and chemists to accomplish nine summer projects
 - **Wake Forest Department of Mathematics**  
@@ -59,7 +59,7 @@ Georgetown, Washington DC
 - **Reformed University Fellowship**  
 Winston-Salem, NC  
 *August 2012 - May 2015*  
-  - Restructured homes for tornado victims in Tuscaloosa, AL
+  - Constructed homes for tornado victims in Tuscaloosa, AL
   - Renovated orphanage for children in Kusi, Peru
 
 - **Mercer University Biomedical Department Volunteer**  

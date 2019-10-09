@@ -1,15 +1,16 @@
 ---
 title: Data Science Fellowship - Rotation 1
 author: Kyle Webb
-date: '2019-03-26'
+date: '2019-10-08'
 slug: data-science-fellowship-rotation-1
 categories:
   - data science
-tags: [data science]
+  - statistics
+tags: [data science, statistics]
 subtitle: ''
 description: 'Interactive Hazard Regression'
 image: ''
-draft: true
+math: true
 ---
 
 
@@ -20,7 +21,29 @@ draft: true
 <p>My first rotation as a data science fellow with the NIH involved sending and updating packages in R. Through this process, I’ve learned to implement git to update and share commits with the original author of the R package. On top of this, I was able to get some experience coding in D3.js for some smoother functionality and user-interaction. This rotation has taught me the value of <strong>planning</strong> and how important it is to map out your code for a project. Through this post, I’ll talk about the statistics behind the <em>ihazr</em> tool, the tech I used, and the challenges I faced, and (ultimately) the R package submission process.</p>
 <div id="ihazr" class="section level5">
 <h5>IHAZR</h5>
-<p>I started by building upon original R code from the author’s github page. The package in development, <em>ihazr</em>, was built using <a href="https://shiny.rstudio.com/">R Shiny</a> and the <a href="https://www.htmlwidgets.org/">htmlwidgets</a> package. <em>ihazr</em>, as its name suggests, is an interactive tool used for estimating the hazard function in survival analysis. The package allows users to estimate a semi-parametric conditional hazard function for their survival data using the Nelson-Aalen estimator. While the Nelson-Aalen estimator and the Kaplen-Meier estimator are asymptotically equivalent, the Nelson-Aalen estimator can perform slightly better and it has been shown to provide better results for increasing failure rates.</p>
+<p>I started by building upon original R code from the author’s github page. The package in development, <em>ihazr</em>, was built using <a href="https://shiny.rstudio.com/">R Shiny</a> and the <a href="https://www.htmlwidgets.org/">htmlwidgets</a> package. <em>ihazr</em>, as its name suggests, is an interactive hazard regression tool used for estimating the hazard function in survival analysis. The package allows users to estimate a semi-parametric conditional hazard function for their survival data using the Nelson-Aalen estimator. While the Nelson-Aalen estimator and the Kaplen-Meier estimator are asymptotically equivalent, the Nelson-Aalen estimator can perform slightly better and it has been shown to provide more precise results for increasing failure rates. Here are some definitions for the major components of survival analysis:</p>
+<p><strong>Survival function</strong>:</p>
+<p><span class="math inline">\(S(t) = P(T &gt; t)\)</span></p>
+<p>Here <span class="math inline">\(S(t)\)</span> is the survival function, which represents the probability of some specified time, <span class="math inline">\(t\)</span>, until event <span class="math inline">\(T\)</span>.</p>
+<p>The survival function can also be written in terms of a cummulative distribution function, <span class="math inline">\(F(t)\)</span>:</p>
+<p><span class="math inline">\(F(t) = P(T \le t) = 1 - S(t)\)</span></p>
+<p>If <span class="math inline">\(F(t)\)</span> is differentiable then <span class="math inline">\(S(t)\)</span> can be re-written as:</p>
+<p><span class="math inline">\(S(t) = P(T &gt; t) = \int_{t}^{\infty} f(u) du = 1 - F(t)\)</span></p>
+<p>where <span class="math inline">\(f(u) = \displaystyle \frac{d}{du} F(u)\)</span> for some specified time, <span class="math inline">\(u\)</span>.</p>
+<p><strong>Hazard funciton</strong>:</p>
+<p>The hazard function, also known as the force of mortality or the force of failure, is the driving mechanism behind the Survival function and is calculated as such:</p>
+<p><span class="math inline">\(\lambda(t) = \displaystyle \lim_{dt \to 0} \frac{P(t \leq T &lt; t + dt)}{S(t)dt} = \frac{f(t)}{S(t)} = \frac{-S&#39;(t)}{S(t)}\)</span>.</p>
+<p>Any function <span class="math inline">\(\lambda(t)\)</span> is a hazard function if it satisfies<br />
+1. <span class="math inline">\(\forall x \geq 0 (h(x) \geq 0)\)</span><br />
+2. <span class="math inline">\(\int_{0}^{\infty} h(x)dx = \infty\)</span></p>
+<p>Furthermore, the cumulative hazard function can be represented as shown below:</p>
+<p><span class="math inline">\(\Lambda(t) = -log(S(t))\)</span></p>
+<p>such that</p>
+<p><span class="math inline">\(\frac{d}{dt}\Lambda(t) = \lambda(t) = \frac{S&#39;(t)}{S(t)}\)</span>.</p>
+<p><strong>Nelson-Aalen Estimator</strong></p>
+<p>The Nelson-Aalen estimator is a non-parametric estimator of the cumulative hazard rate function in the case of censored data. It’s defined below</p>
+<p><span class="math inline">\(\tilde{H} = \displaystyle \sum_{t_i \leq t}\frac{d_i}{n_i}\)</span></p>
+<p>where <span class="math inline">\(d_i\)</span> is the number of events at <span class="math inline">\(t_i\)</span> and <span class="math inline">\(n_i\)</span> is the total individuals at risk at <span class="math inline">\(t_i\)</span>.</p>
 </div>
 <div id="d3.js" class="section level5">
 <h5>D3.js</h5>
@@ -54,6 +77,6 @@ pbc5 &lt;- pbc %&gt;%
  protime = log(protime))
 
 ihazr(time=pbc5[,1], status=pbc5[,2], marker=pbc5[,3:7])</code></pre>
-<p>Though it was frustrating at times, it’s been an amazing journey to supplement new code and visualizations to <em>ihazr</em>. I’ve also enjoyed going through <em>devtools</em> and making the CRAN submission an easier task once the final product of <em>ihazr</em> is ready. I’m sure like many other R users, I typically take the packages for granted and rarely contemplate the time and effort teams have taken to build the statistical software. Through this experience, I’ve been able to practice some of my statistical background and build some muscles in coding and software development along the way. I’ve gained a new perspective for software developers and product deployment and I hope to learn more through my work.</p>
+<p>Though it was frustrating at times, it’s been an amazing journey to supplement new code and visualizations to <em>ihazr</em>. I’ve also enjoyed going through <em>devtools</em> and making the CRAN submission an easier task once the final product of <em>ihazr</em> is ready. I’m sure like many other R users, I typically take the packages for granted and rarely contemplate the time and effort teams have taken to build the statistical software. Through this experience, I’ve been able to practice some of my statistical background and some coding muscles and software development along the way. I’ve gained a new perspective for software developers and product deployment and I hope to learn more through my work.</p>
 </div>
 </div>

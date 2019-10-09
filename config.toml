@@ -11,6 +11,7 @@ preserveTaxonomyNames = true
 paginate = 5 #frontpage pagination
 hasCJKLanguage = true
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+math = true
 
 [outputs]
 home = ["HTML", "RSS", "Algolia"]
