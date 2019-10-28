@@ -1,0 +1,84 @@
+---
+title: Liverpool Goal Trends
+author: Kyle Webb
+date: '2019-10-28'
+slug: liverpool-scoring-trends
+categories:
+  - sports
+  - statistics
+tags:
+  - sports
+  - statistics
+subtitle: ''
+description: 'Bayesian estimation for goals by Liverpool and their opponents assuming a negative binomial distribution'
+image: ''
+---
+
+```{r loading_packages, echo = FALSE, include = FALSE}
+library(kableExtra)
+```
+
+Looking into [datahub's](https://datahub.io/sports-data/english-premier-league) Liverpool match data, I was able to investigate trends for goals scored by and against the Reds from 2009 up to last year's EPL season. Boxplots below show this data over the ten year period.
+
+![](box_plot.png)
+
+The number of goals are pretty variable, and with only 38 games per season, sample size is fairly low. I wanted to use Bayesian statistics to estimate goals for and against Liverpool based on these yearly samples. My major aim was to use distributional estimation on each season and derive simulations for each of Liverpool's scoring records. This way, I would be able to more adequately quantify the upward trajectory we've seen in Liverpool's performance in the EPL, especially over the 2018-2019 season where they finished second in the league by one point behind Manchester City.
+
+One of the statistical questions at hand was what *distributional assumptions to make?* Usually, a poisson distribution is used for count data where the counts (in our case goals) can take any integer greater than or equal to zero. However, if data is distributed by a Poisson distribution this means that the mean and variance must be close to each other. I made a table to check this assumption below. Notice the *Dispersion* statistic, which is *Var*/*Mean*. 
+
+```{r disp_table, echo = FALSE}
+disp_table = readRDS('data/disp_table.RDS')
+kable(disp_table)
+```
+
+Because of the over-dispersion and under-dispersion in certain seasons shown by the table above, we can't assume poisson distributed goals for every year. Instead, I'll assume a negative binomial distribution for the expected goals, $Y$, for each season. Below is the parameterization of the negative binomial that I'll consider: 
+
+$P(Y = y | k, m) = \binom{y + m + 1}{m - 1} (\frac{k}{k + 1})^{m} (\frac{1}{k + 1})^{y}$
+
+where $E[Y] = \frac{m}{k}$ and $Var(Y) = \frac{m}{k^{2}}(k + 1)$.
+
+The parameterization of $m$ is known as the shape parameter and $k$ is the scale parameter. In over/under dispersion cases such as ours, $m$ can be thought of as a way to account for the dispersion effect. In a negative binomial distribution, $Y \in \mathbb{W} = (0, 1, 2, 3, ...)$ and $k, m \in \mathbb{R}$.
+
+But another important statistical assumption is the *model* that I would like to implement for Liverpool's
+expected goals (both those that they scored and those of their opponents). This is shown below, where $\alpha$ and $\beta$
+are hyperparameters capturing the effect of whether the goals were by Liverpool ($i = 1$) or their opponents ($i = 2$) and $\tau$ and $\gamma$ will capture the seasonal effects.
+
+$y_{ijn} \sim NB(m_{ij}, k_{ij}) \hspace{5ex}$ for $n = (1, 2, ... , 38)$  
+$m_{ij} = \alpha_{i} + \tau_{j}$  
+$k_{ij} = \beta_{i} + \gamma_{j}$  
+where $i = (1, 2)$ and $j = (1, 2, ..., 10)$. 
+
+Since I'm implementing Bayesian analysis, I identify my prior distributions as such:
+
+$\alpha_{i}, \beta_{i} \sim Exponential(1)$  
+$\tau_{j} \sim Normal(0, \eta_{j})$  
+$\gamma_{j} \sim Normal(0, \sigma_{j})$  
+$\eta_{j}, \sigma_j \sim Exponential(2)$  
+
+where $\eta$ and $\sigma$ will represent differences in variation for the seasonal effects. 
+
+From here I was able to implement Stan code and sample posterior distributions on all of these parameters through R. The effects of $m$ and $k$ show the four breakdowns between Liverpool and opponent goals for each of the two parameters. Notice the four groups for these parameters in each of their 10 seasons and the level of variation in their distributions. The plots below show posterior distributions for all the components feeding into the model with medians and 80% and 95% credible intervals (excluding $\eta$ and $\sigma$, which can be inferred from the plots of $\tau$ and $\gamma$). 
+
+![](mk.png)
+
+![](alphabeta.png)
+
+![](tau.png)
+
+![](gamma.png)
+
+But a more practical way to tell how yearly performance has changed for Liverpool goal scoring and defending is to simulate. In the bar plots below, I've simulated goals for Liverpool (red) and their opponents (blue) accross the 10 seasons (chronologically ordered left to right) with a sample size of 4000 for each season.
+
+![](liv_goals.png)
+
+![](opp_goals.png)
+
+The 2013-2014 Liverpool season is quite an outlier when compared to other seasons. From a scoring perspesctive, this was a **fantastic** year for Liverpool, scoring a whopping 101 goals in the league and finishing just 2 points behind Manchester United for the league championship. With Luis Suarez, Daniel Sturridge, and Philippe Coutinho leading the front in goal scoring and Steven Gerrard still in whimsical fashion in the midfield, Liverpool managed to be a scoring powerhouse. This is evidenced by the offensive simulations my model shows by the large drop-offs in 0 and 1 goals and the spike in 3 or more goals compared to other seasons. 
+
+Even though the high-octane offense of the Reds during 2013-2014 may have been thrilling, their defensive strategies and new signing Simon Mignolet were lacking in keeping opponents at bay. Mignolet had his moments with his new club, but the keeper only offered 10 clean sheets by the end of the premier league season and it was clear defensively that Brendan Rodgers had kinks to smooth out after only his second season with the club. This is illustrated by the large drop in the 2013-2014 percentage of sample for zero opponent goals and the spikes in 2 or more goals. Taking this analysis a step further, my model estimates that the 2013-2014 Liverpool squad would let opponents score 2 or more goals approximately 37.5% of their games. 
+
+Unlike their predecessors, the 2018-2019 edition of Liverpool seem to have done slightly worse than standard in the goal scoring department, but their strength really shows in goal prevention. The signing of new goalkeeper Alisson Becker for £66.8 M, Virgil van Dijk for £75 M, and new manangerial tactics under Jürgen Klopp have buttressed the somewhat waning Liverpool defense and the large percentage of sampling in 0 opponent goals demonstrates this fact. 
+
+Given all of Liverpools players, I think the most pivotal performance lies in their full backs Trent Alexander-Arnold and Andrew Robertson. Though Alexander-Arnold and Robertson have been vital for many goal scoring opportunities for Liverpool, their push forward in recent games against Manchester United and Tottenham Hotspur have given ample opportunity to their countering opponent. Hopefully Liverpool's inventive style of play and positive, can-do spirit will  break the mold of defensive efforts from years past and finally bring a much anticipated league title back to Anfield. 
+
+YNWA
