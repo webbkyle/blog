@@ -6,46 +6,56 @@
     <description>Recent content in statistics on Webb Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 02 Nov 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/statistics/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Fisher’s Exact Test</title>
+      <link>/2019/11/02/fisher-s-exact-test/</link>
+      <pubDate>Sat, 02 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/11/02/fisher-s-exact-test/</guid>
+      <description>Fisher’s exact test is a common statistical test implemented for count data in a contingency table. The name gets the term exact from the fact that the test compares group counts to the hypergeometric function and thus returns an exact probability of obtaining counts of different outcomes.
+As an example, let’s consider a hypothetical study of mice evenly split into two groups– a control group and a treatment group. The treated mice will receive a vaccine before infection while the control group will not.</description>
+    </item>
+    
+    <item>
       <title>Liverpool Goal Trends</title>
-      <link>/post/liverpool-scoring-trends/</link>
+      <link>/2019/10/28/liverpool-scoring-trends/</link>
       <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/liverpool-scoring-trends/</guid>
+      <guid>/2019/10/28/liverpool-scoring-trends/</guid>
       <description>Looking into datahub’s Liverpool match data, I was able to investigate trends for goals scored by and against the Reds from 2009 up to last year’s EPL season. Boxplots below show this data over the ten year period.
  The number of goals are pretty variable, and with only 38 games per season, sample size is fairly low. I wanted to use Bayesian statistics to estimate goals for and against Liverpool based on these yearly samples.</description>
     </item>
     
     <item>
       <title>Data Science Fellowship - Rotation 1</title>
-      <link>/post/data-science-fellowship-rotation-1/</link>
+      <link>/2019/10/08/data-science-fellowship-rotation-1/</link>
       <pubDate>Tue, 08 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/data-science-fellowship-rotation-1/</guid>
+      <guid>/2019/10/08/data-science-fellowship-rotation-1/</guid>
       <description>R Package Development for Survival Analysis For those that don’t know, the NIH (National Institutes of Health) is made up of 27 institutes and centers. One of those centers, the National Institute of Allergy and Infectious Dieseases (NIAID), has a special program designed to bring data scientists within the institute to gain hands-on-experience in applying and managing big data, bioinformatics strategies, and software development. NIAID’s mission is to conduct and support basic and applied research to better understand, treat, and ultimately prevent infectious, immunologic, and allergic diseases.</description>
     </item>
     
     <item>
       <title>Confidence Interval</title>
-      <link>/post/confidence-interval/</link>
+      <link>/2019/02/18/confidence-interval/</link>
       <pubDate>Mon, 18 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/confidence-interval/</guid>
+      <guid>/2019/02/18/confidence-interval/</guid>
       <description>https://webb-kyle.shinyapps.io/shinyapp-confidence-int/
 This shiny app calculates confidence intervals from normal distributions with subsampling criteria specified by the user. Number of confidence intervals (Samples) is also defined by the user as well as the mean and standard deviation of the distribution. Note the discrepencies between empirical and theoretical error rates. These are pronounced when subsampling numbers are low. This example demonstrates one of the pitfalls with frequentist statistics and a reliance upon confidence interval estimation.</description>
     </item>
     
     <item>
       <title>My first shiny app</title>
-      <link>/post/shiny-app-mixture/</link>
+      <link>/2019/01/31/shiny-app-mixture/</link>
       <pubDate>Thu, 31 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/shiny-app-mixture/</guid>
+      <guid>/2019/01/31/shiny-app-mixture/</guid>
       <description>https://webb-kyle.shinyapps.io/mixture_simulation/
 Here’s the link for the first shiny app I ever built. Basically, this simulator lets the user select the number of components (Normal distributions) they want to randomly sample from. The mean and standard deviation of the distributions are randomly assigned and the sample sizes for the distributions are user-selected as 200, 500, 1000, 2000, or 5000 points from each component. Mu (mean) and Dev (standard deviation) results will show in a resulting table.</description>
     </item>

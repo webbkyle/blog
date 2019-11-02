@@ -6,26 +6,35 @@
     <description>Recent content in data science on Webb Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/data-science/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Data Science Fellowship - Rotation 2</title>
+      <link>/2019/10/29/data-science-fellowship-rotation-2/</link>
+      <pubDate>Tue, 29 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/10/29/data-science-fellowship-rotation-2/</guid>
+      <description>In my second rotation as a data science fellow for the NIH (see here for more details), I worked with the Laboratory of Immune System Biology (LISB) in the Division of Intramural Research (DIR) at the National Institute of Allergy and Infectious Diseases (NIAID). One of the major goals of this rotation was to improve the network visualization capabilities of a bioinformatics screening tool named TRIAGE (Throughput Ranking by Iterative Analysis of Genomic Enrichment).</description>
+    </item>
+    
+    <item>
       <title>Data Science Fellowship - Rotation 1</title>
-      <link>/post/data-science-fellowship-rotation-1/</link>
+      <link>/2019/10/08/data-science-fellowship-rotation-1/</link>
       <pubDate>Tue, 08 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/data-science-fellowship-rotation-1/</guid>
+      <guid>/2019/10/08/data-science-fellowship-rotation-1/</guid>
       <description>R Package Development for Survival Analysis For those that don’t know, the NIH (National Institutes of Health) is made up of 27 institutes and centers. One of those centers, the National Institute of Allergy and Infectious Dieseases (NIAID), has a special program designed to bring data scientists within the institute to gain hands-on-experience in applying and managing big data, bioinformatics strategies, and software development. NIAID’s mission is to conduct and support basic and applied research to better understand, treat, and ultimately prevent infectious, immunologic, and allergic diseases.</description>
     </item>
     
     <item>
       <title>NCAA March Madness - 2020</title>
-      <link>/post/ncaa-march-madness-2020/</link>
+      <link>/2019/09/17/ncaa-march-madness-2020/</link>
       <pubDate>Tue, 17 Sep 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/ncaa-march-madness-2020/</guid>
+      <guid>/2019/09/17/ncaa-march-madness-2020/</guid>
       <description>Ah March… the birds are back (both motorized and natural), the weather is (a tiny bit) warmer, and 68 collegiate teams hash out their skills in an all-out, maddening basketball do-or-die nation-wide tournament. March is back baby!
 I love NCAA March Madness. Although I never really watch college basketball through the regular season, I find the tournament too thrilling to ignore. Given that I have no understanding of most of the teams when the tourney starts, I have to rely on data and modeling techniques to make some sort of educated guesses.</description>
     </item>

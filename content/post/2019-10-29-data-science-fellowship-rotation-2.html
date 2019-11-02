@@ -1,0 +1,25 @@
+---
+title: Data Science Fellowship - Rotation 2
+author: Kyle Webb
+date: '2019-10-29'
+slug: data-science-fellowship-rotation-2
+categories:
+  - data science
+tags:
+  - data science
+subtitle: ''
+description: 'TRIAGE - Network Visualization'
+image: ''
+draft: true
+---
+
+
+
+<p>In my second rotation as a data science fellow for the NIH (see <a href="%22/2019/03/21/data-science-fellowship-rotation-1%22">here</a> for more details), I worked with the Laboratory of Immune System Biology (LISB) in the Division of Intramural Research (DIR) at the National Institute of Allergy and Infectious Diseases (NIAID). One of the major goals of this rotation was to improve the network visualization capabilities of a bioinformatics screening tool named TRIAGE (<strong>T</strong>hroughput <strong>R</strong>anking by <strong>I</strong>terative <strong>A</strong>nalysis of <strong>G</strong>enomic <strong>E</strong>nrichment). TRIAGE is a tool that facilitates hypothesis generation for genome-wide perturbation studies like those designed with short interfering RNA (siRNA), RNA interference (RNAi), and CRISPR/Cas9 assays.</p>
+<p>After user defined inputs and <a href="https://www.genome.jp/kegg/kegg1.html">KEGG</a> and <a href="https://string-db.org/">STRING</a> enrichment, TRIAGE provides the <em>hit genes</em> from the analysis. These <em>hit genes</em> can be downloaded by the user or, using the network functionality of the TRIAGE application, the user can investigate which genes correspond to which and highlight the genetic pathways that connect them. Before I came on to the project, this is what a typical network graph looked like:</p>
+<!--- place TRIAGE network graph here --->
+<p>The network graph above shows each individual node as a gene from the output of TRIAGE and the connected edges between them are biologically driven connections annotated in STRING. Though this network graph was certainly useful, it did have some drawbacks: - No user-operability and commands such as freezing one or multiple connections - Not subsetting genes involved in multiple pathways - No ability to click through pathways and log the path in a dataset or in the visualization itself</p>
+<p>I was able to build these changes and many others into the TRIAGE network visualization by starting from the original code of the <em>networkD3</em> R package and rewriting customized functions using D3.js. The D3 network files that I wrote were then connected back to the TRIAGE app using the <em>r2d3</em> to help with the cross talk between these two languages. Here’s an image of the new network visualization portion of the app.</p>
+<!--- other TRIAGE image --->
+<p>Try TRIAGE out by downloading <a href="">this dataset</a> on a study…. Next, visit the <a href="">TRIAGE website</a>, hosted by NIAID. Input the downloaded data from the ___ study and investigate potential pathways.</p>
+<p><em>This research was supported in part by an appointment to the National lnstitute of Allergy and lnfectious Diseases (NIAID) Emerging Leaders in Data Science Research Participation Program. This program is administered by the Oak Ridge lnstitute for Science and Education through an interagency agreement between the U.S. Department of Energy and the National lnstitutes of Health.</em></p>

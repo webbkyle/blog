@@ -114,3 +114,5 @@ ihazr(time=pbc5[,1], status=pbc5[,2], marker=pbc5[,3:7])
 
 Though it was frustrating at times, it's been an amazing journey to supplement new code and visualizations to *ihazr*. I've also enjoyed going through *devtools* and making the CRAN submission an easier task once the final product of *ihazr* is ready. I'm sure like many other R users, I typically take the packages for granted and rarely contemplate the time and effort teams have taken to build the statistical software. Through this experience, I've been able to practice some of my statistical background and some coding muscles and software development along the way. I've gained a new perspective for software developers and product deployment and I hope to learn more through my work.
 
+*This research was supported in part by an appointment to the National lnstitute of Allergy and lnfectious Diseases (NIAID) Emerging Leaders in Data Science Research Participation Program. This program is administered by the Oak Ridge lnstitute for Science and Education through an interagency agreement between the U.S. Department of Energy and the National lnstitutes of Health.*
+
