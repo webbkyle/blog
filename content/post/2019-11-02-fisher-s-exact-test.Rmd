@@ -91,5 +91,5 @@ ggplot(power_vals, aes(x = size, y = vals, col = alpha)) +
     ggtitle("Fisher Exact Test Power Curves")
 ```
 
-![](power_curves.png)
+![](/post/2019-11-02-fisher-s-exact-test_files/power_curves.png)
 

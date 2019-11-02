@@ -20,7 +20,7 @@ library(kableExtra)
 
 Looking into [datahub's](https://datahub.io/sports-data/english-premier-league) Liverpool match data, I was able to investigate trends for goals scored by and against the Reds from 2009 up to last year's EPL season. Boxplots below show this data over the ten year period.
 
-![](box_plot.png)
+![](/post/2019-10-28-liverpool-scoring-trends_files/box_plot.png)
 
 The number of goals are pretty variable, and with only 38 games per season, sample size is fairly low. I wanted to use Bayesian statistics to estimate goals for and against Liverpool based on these yearly samples. My major aim was to use distributional estimation on each season and derive simulations for each of Liverpool's scoring records. This way, I would be able to more adequately quantify the upward trajectory we've seen in Liverpool's performance in the EPL, especially over the 2018-2019 season where they finished second in the league by one point behind Manchester City.
 
@@ -59,19 +59,19 @@ where $\eta$ and $\sigma$ will represent differences in variation for the season
 
 From here I was able to implement Stan code and sample posterior distributions on all of these parameters through R. The effects of $m$ and $k$ show the four breakdowns between Liverpool and opponent goals for each of the two parameters. Notice the four groups for these parameters in each of their 10 seasons and the level of variation in their distributions. The plots below show posterior distributions for all the components feeding into the model with medians and 80% and 95% credible intervals (excluding $\eta$ and $\sigma$, which can be inferred from the plots of $\tau$ and $\gamma$). 
 
-![](mk.png)
+![](/post/2019-10-28-liverpool-scoring-trends_files/mk.png)
 
-![](alphabeta.png)
+![](/post/2019-10-28-liverpool-scoring-trends_files/alphabeta.png)
 
-![](tau.png)
+![](/post/2019-10-28-liverpool-scoring-trends_files/tau.png)
 
-![](gamma.png)
+![](/post/2019-10-28-liverpool-scoring-trends_files/gamma.png)
 
 But a more practical way to tell how yearly performance has changed for Liverpool goal scoring and defending is to simulate. In the bar plots below, I've simulated goals for Liverpool (red) and their opponents (blue) accross the 10 seasons (chronologically ordered left to right) with a sample size of 4000 for each season.
 
-![](liv_goals.png)
+![](/post/2019-10-28-liverpool-scoring-trends_files/liv_goals.png)
 
-![](opp_goals.png)
+![](/post/2019-10-28-liverpool-scoring-trends_files/opp_goals.png)
 
 The 2013-2014 Liverpool season is quite an outlier when compared to other seasons. From a scoring perspesctive, this was a **fantastic** year for Liverpool, scoring a whopping 101 goals in the league and finishing just 2 points behind Manchester United for the league championship. With Luis Suarez, Daniel Sturridge, and Philippe Coutinho leading the front in goal scoring and Steven Gerrard still in whimsical fashion in the midfield, Liverpool managed to be a scoring powerhouse. This is evidenced by the offensive simulations my model shows by the large drop-offs in 0 and 1 goals and the spike in 3 or more goals compared to other seasons. 
 

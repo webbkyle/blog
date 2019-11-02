@@ -14,22 +14,24 @@ image: ''
 ```{r import_data, include = FALSE}
 library(readxl); library(plotly); library(dplyr); library(magrittr)
 
-debt_B = read_xlsx("data/CBO_2018.xlsx", sheet = "Debt($B)")
+datFile = "data/CBO_2018.xlsx"
+
+debt_B = read_xlsx(datFile, sheet = "Debt($B)")
 debt_B %<>% rename(debt = `Debt Held by the Publica`) %>% 
   mutate(debt = debt / 1000,
          Revenues = Revenues / 1000)
-debt_gdp = read_xlsx("data/CBO_2018.xlsx", sheet = "Debt(%GDP)")
+debt_gdp = read_xlsx(datFile, sheet = "Debt(%GDP)")
 debt_gdp %<>% rename(debt = `Debt Held by the Publica`)
 debt_n = merge(debt_B, debt_gdp, by = 'Year')
 debt_n %<>% mutate(Clinton = factor(ifelse(Year %in% seq(1992, 2000, 1), 1, 0 )))
 
-outlay_gdp = read_xlsx("data/CBO_2018.xlsx", sheet = "Outlays(%GDP)")
-def_gdp = read_xlsx("data/CBO_2018.xlsx", sheet = "Disc_Outlays(%GDP)")
+outlay_gdp = read_xlsx(datFile, sheet = "Outlays(%GDP)")
+def_gdp = read_xlsx(datFile, sheet = "Disc_Outlays(%GDP)")
 outlay_gdp = merge(outlay_gdp, def_gdp, by = 'Year')
 
-rev_gdp = read_xlsx("data/CBO_2018.xlsx", sheet = "Revenues(%GDP)")
+rev_gdp = read_xlsx(datFile, sheet = "Revenues(%GDP)")
 
-mand_gdp = read_xlsx("data/CBO_2018.xlsx", sheet = "Mand_Outlays(%GDP)")
+mand_gdp = read_xlsx(datFile, sheet = "Mand_Outlays(%GDP)")
 
 ```
 

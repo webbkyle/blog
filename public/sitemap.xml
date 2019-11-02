@@ -83,20 +83,14 @@
   </url>
   
   <url>
-    <loc>/categories/data-science/</loc>
-    <lastmod>2019-10-29T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/data-science/</loc>
     <lastmod>2019-10-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/politics/</loc>
-    <lastmod>2019-09-19T00:00:00+00:00</lastmod>
+    <loc>/categories/data-science/</loc>
+    <lastmod>2019-10-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -107,8 +101,8 @@
   </url>
   
   <url>
-    <loc>/categories/sports/</loc>
-    <lastmod>2019-10-28T00:00:00+00:00</lastmod>
+    <loc>/categories/politics/</loc>
+    <lastmod>2019-09-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -119,13 +113,19 @@
   </url>
   
   <url>
-    <loc>/categories/statistics/</loc>
-    <lastmod>2019-11-02T00:00:00+00:00</lastmod>
+    <loc>/categories/sports/</loc>
+    <lastmod>2019-10-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/statistics/</loc>
+    <lastmod>2019-11-02T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/statistics/</loc>
     <lastmod>2019-11-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
