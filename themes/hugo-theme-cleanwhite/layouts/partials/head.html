@@ -11,14 +11,15 @@
     <meta name="description" content="{{ .Site.Params.description }}">
     {{ end }}
     <meta name="keyword"  content="{{ .Site.Params.keyword }}">
-    <link rel="shortcut icon" href="{{ "img/favicon.ico" | relURL }}">
+    <!---link rel="shortcut icon" href="{{ "img/favicon.ico" | relURL }}"--->
+    <link rel="shortcut icon" href="{{ "img/wb.png" | relURL }}">
 
     <title>{{ if .Title }}{{ .Title }}-{{ .Site.Params.SEOTitle }}{{ else }}{{ .Site.Params.SEOTitle }}{{ end }}</title>
 
     <link rel="canonical" href="{{ .URL | relURL }}">
 
     <link rel="stylesheet" href="{{ "css/iDisqus.min.css" | relURL }}"/>
-	
+
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="{{ "css/bootstrap.min.css" | relURL }}">
 
@@ -38,13 +39,13 @@
     -->
     <!-- jQuery -->
     <script src="{{ "js/jquery.min.js" | relURL }}"></script>
-    
+
     <!-- Bootstrap Core JavaScript -->
     <script src="{{ "js/bootstrap.min.js" | relURL }}"></script>
-    
+
     <!-- Custom Theme JavaScript -->
     <script src="{{ "js/hux-blog.min.js" | relURL }}"></script>
-	
+
     <!-- Use the docco color scheme of highlight.js to highlight the code in the page -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
