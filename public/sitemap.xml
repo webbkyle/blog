@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2020/01/09/the-songwriter-s/</loc>
+    <lastmod>2020-01-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2019/11/02/fisher-s-exact-test/</loc>
     <lastmod>2019-11-02T00:00:00+00:00</lastmod>
   </url>
@@ -57,7 +62,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-11-02T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -78,19 +83,19 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-11-02T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/data-science/</loc>
-    <lastmod>2019-10-29T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/data-science/</loc>
-    <lastmod>2019-10-29T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -1,0 +1,295 @@
+---
+title: NLP on American Songwriting
+author: Kyle Webb
+date: '2020-01-09'
+slug: the-songwriter-s
+categories:
+  - data science
+tags:
+  - data science
+subtitle: ''
+description: 'Building an NLP model using songs from four of my favorite American songwriters'
+image: ''
+---
+
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<p>“How many roads must a man walk down<br />
+Before you call him a man?<br />
+How many seas must a white dove sail<br />
+Before she sleeps in the sand?<br />
+Yes, and how many times must the cannon balls fly<br />
+Before they’re forever banned?<br />
+<strong>The answer, my friend, is blowin’ in the wind<br />
+The answer is blowin’ in the wind.</strong>”</p>
+<p>Recognize those lines? Bob Dylan, one of America’s greatest songwriters, wrote <em>Blowin’ in the Wind</em> in 1962, to illustrate that some of life’s answers are as biting and as difficult to grasp as the wind itself. The refrain, bolded above, seems as simple as a “how do you do”, but the phrase also points the listener to a greater power, beyond man’s grasp and understanding. In fact, the refrain seems to allude to God himself and one can wonder if Dylan ever heard or read that “He caused the east wind to blow in the heavens and by His power He directed the south wind” (Psalm 78:26).</p>
+<p>Whatever the reason for writing this tune, Dylan’s masterful prose and poetic gumption are evidenced by this song and others like it. In addition to Bob Dylan, I’ve come to find his contemporary, Johnny Cash, and two current artists, Josh Ritter and Jason Isbell, have the same sort of American spirit and charisma in their song writing.</p>
+<p>In deference to these artists, I’ve decided to make my first blog post on natural language processing (NLP) by creating a language model to meld these four creative voices. It was a fun exercise, and I really enjoyed seeing what predictions a deep learning model would give from an ammalgamation of the works of these great artists.</p>
+<div id="data-collection" class="section level3">
+<h3>Data Collection</h3>
+<p>To begin with, I accessed the songs for Bob Dylan, Johnny Cash, Josh Ritter, and Jason Isbell using an <a href="https://docs.genius.com/">API from Song Genius</a>. I wrote two functions in python to help me query from the API and then write the songs and the artists to a data frame. Below is my script. Note that ‘Jason Isbell’ and ‘Jason Isbell and the 400 Unit’ had to be searched separately and then joined together later. I decided to use regular expressions to remove any external text found in the songs (e.g. “[Chorus]” or “[Verse 1]”) and I decided to remove any extra break lines, so that all stanzas in a song were collapsed together.</p>
+<pre class="py"><code># importing relevant modules
+import re
+import lyricsgenius as genius
+import pandas as pd
+
+api = genius.Genius(apiPrivateKey) # private key access for song genius
+
+# function to query an artist and set maximum number of songs collected
+def collect_songs(artistName, max_songs):
+    gArtist = api.search_artist(artistName, max_songs = max_songs)
+
+    lyrics = []
+    title = []
+    artist = []
+
+    for song in gArtist.songs:
+        s = song.lyrics
+        s = re.sub(&quot;([\[]).*?([\]])&quot;, &#39;&#39;, s) # remove anything in brackets
+        
+        # below checks for extra break lines and removes them
+        quadCheck = &#39;\n&#39;*4
+        tripCheck = &#39;\n&#39;*3
+        dubCheck = &#39;\n&#39;*2
+        if quadCheck in s:
+            s = s.replace(quadCheck, &#39;\n&#39;)
+        if tripCheck in s:
+            s = s.replace(tripCheck, &#39;\n&#39;)
+        if dubCheck in s:
+            s = s.replace(dubCheck, &#39;\n&#39;)
+        if s[0:1] == &#39;\n&#39;:
+            s = s[1:]
+        
+        # appends findings to empty lists
+        lyrics.append(s)
+        title.append(song.title)
+        artist.append(song.artist)
+    
+    # writes dictionary object
+    d = {&#39;lyrics&#39; : lyrics,
+         &#39;title&#39; : title,
+         &#39;artist&#39; : artist}
+
+    return(d)
+    
+# function to use collect_songs() on several artists and return data frame    
+def compile_df(artistNames, max_songs = 250):
+    for a in range(len(artistNames)):
+        artistName = artistNames[a]
+        d = collect_songs(artistName, max_songs)
+        if a != 0:
+            df0 = pd.DataFrame(d)
+            df = pd.concat([df, df0])
+        else:
+            df = pd.DataFrame(d)
+    return(df)
+    
+artistNames = [&#39;Bob Dylan&#39;, &#39;Johnny Cash&#39;, &#39;Josh Riter&#39;, 
+              &#39;Jason Isbell&#39;, &#39;Jason Isbell and the 400 Unit&#39;]
+
+df = compile_df(artistNames)
+
+# gzip dataframe
+df.to_csv(&#39;songs.tar.gz&#39;, compression=&#39;gzip&#39;, index=False, sep=&#39;\t&#39;)</code></pre>
+<p>Here’s a table for the counts of the searches. The queries for Bob Dylan and Johnny Cash both maxed out at 250, but after accounting for some instrumental songs and other data cleaning here’s what I’m left with:</p>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+artist
+</th>
+<th style="text-align:right;">
+songs
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Johnny Cash
+</td>
+<td style="text-align:right;">
+250
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bob Dylan
+</td>
+<td style="text-align:right;">
+248
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Josh Ritter
+</td>
+<td style="text-align:right;">
+190
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Jason Isbell
+</td>
+<td style="text-align:right;">
+98
+</td>
+</tr>
+</tbody>
+</table>
+<p>And here’s an example to show what the text actually looks like (“All Along the Watchtower” - Bob Dylan).</p>
+<div class="figure">
+<img src="/post/2020-01-09-the-songwriter-s_files/all-along-watchtower.png" />
+
+</div>
+</div>
+<div id="transfer-learning-and-training" class="section level3">
+<h3>Transfer Learning and Training</h3>
+<p>GPUs are preferred to CPUs for deep learning because of their ability to compute rapid mathematical operations in a shorter amount of time. In order to adequately (and quickly) train my model I would need GPU access. There are many options to do this online, but I ended up using <a href="https://www.paperspace.com/">Paperspace</a>. I also used the fastai library within a Jupyter Notebook through the Paperspace environment. Below are some of the key procedures I implemented to produce the language model.</p>
+<div id="databunch" class="section level5">
+<h5>DataBunch</h5>
+<p>The first thing to do with this textual data is to convert it into a numerical format. I used a databunch method which tokenizes the words and symbols in the text and then numericalizes these tokens. The numerical aspect has a limit of 60,000 unique tokens it can convert, so for rare words which the model didn’t numericalize, it converted these words into placeholders such as “xxmaj” (see the batch output below). This is one of the limitations of the model I built and I would need to rewrite part of the DataBunch class in order to change this unique token limit.</p>
+<div class="figure">
+<img src="/post/2020-01-09-the-songwriter-s_files/batch-table.png" />
+
+</div>
+</div>
+<div id="learning-rate" class="section level5">
+<h5>Learning rate</h5>
+<p>One of the best things offered by the fastai library is the learning rate scheduler. I can actually look at the tunings of the learning rate performance and then specify which value of the learning rate I would like to use. You can think of the learning rate as the gradient to which the model will search the feature space for the minimum loss. When chosing this learning rate, it’s often best to choose a value that is near the inflection point of the the function as it approaches minimum loss.</p>
+<div class="figure">
+<img src="/post/2020-01-09-the-songwriter-s_files/learner-fig.png" />
+
+</div>
+</div>
+<div id="language-model-training" class="section level5">
+<h5>Language model training</h5>
+<p>Over the different epochs of training, I reserved 10 percent of each of the songs to be guessed by the model. This is the accuracy metric that’s shown in the output below. By the end of the training rounds for this language model, it’s prediction for the next word is approximately 35% and because I only used 786 records with a batch size of 64, each epoch’s training didn’t take long.</p>
+<div class="figure">
+<img src="/post/2020-01-09-the-songwriter-s_files/accuracy-table.png" />
+
+</div>
+</div>
+</div>
+<div id="model-prediction" class="section level3">
+<h3>Model Prediction</h3>
+<p>Now onto the big finale - the model predictions! What’s great about training a language model is the creativity in the prediction (and the insanity). Since we basically trained the language alone the user only needs to specify the number of words following a defined sentence. Below I’ve put the first line for some of the artist’s own lyrics (bolded) and then shown at most 100 words predicted from the language model. In the last example, I make up some lyrics of my own, for kicks and gigz. I can safely say the originals are much better…</p>
+<div id="bob-dylan" class="section level5">
+<h5>Bob Dylan</h5>
+<p>“<strong>How many roads must a man walk down</strong><br />
+And how many times must go<br />
+Where stands you short , broken hearts<br />
+Where is your body ?<br />
+How many times the sun rolled through me<br />
+The sidewalk and the sky through the trees<br />
+My face ’s tumbling<br />
+Your behind the clouds<br />
+In the sky xxbos Is the love of a time ?<br />
+Or is it a dream ?<br />
+Is it on a final cruise ?<br />
+What a dream is , it ’s about to cross”</p>
+<p>“<strong>Early one mornin’ the sun was shinin’</strong><br />
+Early in the morning , the sun blew so sweet that even in the shadows would make the sun fail<br />
+There was a beer for Friday rain and a Friday evening<br />
+Well , the hour that i waited was friday again<br />
+i was made to make a drink that was sweet and the air was easily done<br />
+So the night was cold as the sun went down<br />
+When my eyes were wet my face was oh<br />
+And when i saw the light that day was there”</p>
+</div>
+<div id="johnny-cash" class="section level5">
+<h5>Johnny Cash</h5>
+<p>“<strong>I keep a close watch on this heart of mine.</strong><br />
+i ’m a pawn in my game<br />
+My heart is a knot in your pocket<br />
+i ’m wide awake and i ’m in pain<br />
+My heart is a package and i ’m a saint<br />
+And i ’m a wise man for you<br />
+If you can call me , i will<br />
+And i ca n’t not be free<br />
+Cause i ca n’t change my mind<br />
+i ’m going back to Jordan<br />
+To the East Coast”</p>
+<p>“<strong>I hear the train a comin’</strong><br />
+As i walk , i hear the whistle blowing<br />
+i ’m going to hear the whistle when i go<br />
+The train is on its way to hell<br />
+i ’ve been on the train all day<br />
+And i ’ve been to a place to go a thousand times<br />
+And the train ca n’t go back<br />
+i could have been a bad train<br />
+This train is a clean train<br />
+This train is a clean train”</p>
+</div>
+<div id="josh-ritter" class="section level5">
+<h5>Josh Ritter</h5>
+<p>“<strong>Mama got a look at you and got a little worried</strong><br />
+Honey , i ’m rolling and rolling<br />
+Oh , you look like you ’re a dark white man<br />
+But now you ’re right in front<br />
+i got a little worried about you<br />
+Now you ’re a Bible thief<br />
+i got out of my hole<br />
+So i got a look in my eye<br />
+But , Jesus , i got sick , i ai n’t got any shoes<br />
+Oh , i do n’t know<br />
+Little Jesus by name”</p>
+<p>“<strong>He opens his eyes, falls in love at first sight</strong><br />
+He holds his eyes , shouting<br />
+He walks alone<br />
+He walks in the hall , he burns and calls<br />
+He calls out he will make me happy , he will be with me<br />
+He will be nobody ’s fool<br />
+He said ,” Are you who you are ! i love you , you be our God ! &quot; ?<br />
+You are God !<br />
+Yes , Lord , have His Arms .<br />
+You ’re the best .&quot;</p>
+</div>
+<div id="jason-isbell" class="section level5">
+<h5>Jason Isbell</h5>
+<p>“<strong>It’s not the long, flowing dress that you’re in.</strong><br />
+The stage is smooth and it is smooth like smooth sand<br />
+Flowers are scattered and scattered in the sky<br />
+In the light of the evening evening sky , the sky is blue , drinking spoon<br />
+In the morning , the rain is a sight . It is the only day that the wind starts to shine in the day , and the wind honors , for the lighting flash at the lighting flash<br />
+( Tree is on fire )<br />
+On the shoulder of Royal City”</p>
+<p>“<strong>I hope you find something to love</strong><br />
+i ’ll stone you when you got a new highway<br />
+And you ’ll take a vacation<br />
+i ’ll marry you for that ocean and the nail and nail your boots and feet<br />
+i ’ll stand this new road , My Lover ’s God<br />
+i ’ll stone you and buy me some new<br />
+You ’ll find me at Texarkana<br />
+You ’ll find Texarkana , where it is home<br />
+It ’s not the only home<br />
+It ’s a home home for me”</p>
+</div>
+<div id="made-up-lyrics" class="section level5">
+<h5>Made up lyrics</h5>
+<p>“<strong>My feet have found that same ol’ street</strong><br />
+You ’re the best , the best , the best , the best , the best , the best<br />
+The best is the harder stuff<br />
+In the Sky , the sky is beginning to show<br />
+The sky is beginning to grow<br />
+In a laugh<br />
+The old Sky Town clouds were so quiet<br />
+The sky was so big they were empty<br />
+The sky was cold<br />
+The sky was warm in the nights and the sky was sweeter than the sky”</p>
+<p>“<strong>Her ship set off to sail in May</strong><br />
+While her anchor heading south along the Wide Bay<br />
+On the way home , South America<br />
+The Rising Sun<br />
+On the East Coast<br />
+On the East Coast<br />
+On the East Coast<br />
+There ’s one deep - harbor harbor<br />
+On the other side of the ocean<br />
+Much of the ocean ’s in the north<br />
+In the south , South America<br />
+East of the Great”</p>
+</div>
+</div>

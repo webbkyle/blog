@@ -6,10 +6,27 @@
     <description>Recent content in data science on Webb Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 29 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/data-science/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>NLP on American Songwriting</title>
+      <link>/2020/01/09/the-songwriter-s/</link>
+      <pubDate>Thu, 09 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/01/09/the-songwriter-s/</guid>
+      <description>“How many roads must a man walk down
+Before you call him a man?
+How many seas must a white dove sail
+Before she sleeps in the sand?
+Yes, and how many times must the cannon balls fly
+Before they’re forever banned?
+The answer, my friend, is blowin’ in the wind
+The answer is blowin’ in the wind.”
+Recognize those lines? Bob Dylan, one of America’s greatest songwriters, wrote Blowin’ in the Wind in 1962, to illustrate that some of life’s answers are as biting and as difficult to grasp as the wind itself.</description>
+    </item>
     
     <item>
       <title>Data Science Fellowship - Rotation 2</title>

@@ -1,0 +1,257 @@
+---
+title: NLP on American Songwriting
+author: Kyle Webb
+date: '2020-01-09'
+slug: the-songwriter-s
+categories:
+  - data science
+tags:
+  - data science
+subtitle: ''
+description: 'Building an NLP model using songs from four of my favorite American songwriters'
+image: ''
+---
+
+"How many roads must a man walk down  
+Before you call him a man?  
+How many seas must a white dove sail  
+Before she sleeps in the sand?  
+Yes, and how many times must the cannon balls fly  
+Before they're forever banned?  
+**The answer, my friend, is blowin' in the wind  
+The answer is blowin' in the wind.**"  
+  
+Recognize those lines? Bob Dylan, one of America's greatest songwriters, wrote *Blowin' in the Wind* in 1962, to illustrate that some of life's answers are as biting and as difficult to grasp as the wind itself. The refrain, bolded above, seems as simple as a "how do you do", but the phrase also points the listener to a greater power, beyond man's grasp and understanding. In fact, the refrain seems to allude to God himself and one can wonder if Dylan ever heard or read that "He caused the east wind to blow in the heavens and by His power He directed the south wind" (Psalm 78:26). 
+
+Whatever the reason for writing this tune, Dylan's masterful prose and poetic gumption are evidenced by this song and others like it. In addition to Bob Dylan, I've come to find his contemporary, Johnny Cash, and two current artists, Josh Ritter and Jason Isbell, have the same sort of American spirit and charisma in their song writing. 
+
+In deference to these artists, I've decided to make my first blog post on natural language processing (NLP) by creating a language model to meld these four creative voices. It was a fun exercise, and I really enjoyed seeing what predictions a deep learning model would give from an ammalgamation of the works of these great artists.
+
+### Data Collection
+
+To begin with, I accessed the songs for Bob Dylan, Johnny Cash, Josh Ritter, and Jason Isbell using an [API from Song Genius](https://docs.genius.com/). I wrote two functions in python to help me query from the API and then write the songs and the artists to a data frame. Below is my script.  Note that 'Jason Isbell' and 'Jason Isbell and the 400 Unit' had to be searched separately and then joined together later. I decided to use regular expressions to remove any external text found in the songs (e.g. "[Chorus]" or "[Verse 1]") and I decided to remove any extra break lines, so that all stanzas in a song were collapsed together. 
+
+```{py, eval = FALSE}
+# importing relevant modules
+import re
+import lyricsgenius as genius
+import pandas as pd
+
+api = genius.Genius(apiPrivateKey) # private key access for song genius
+
+# function to query an artist and set maximum number of songs collected
+def collect_songs(artistName, max_songs):
+    gArtist = api.search_artist(artistName, max_songs = max_songs)
+
+    lyrics = []
+    title = []
+    artist = []
+
+    for song in gArtist.songs:
+        s = song.lyrics
+        s = re.sub("([\[]).*?([\]])", '', s) # remove anything in brackets
+        
+        # below checks for extra break lines and removes them
+        quadCheck = '\n'*4
+        tripCheck = '\n'*3
+        dubCheck = '\n'*2
+        if quadCheck in s:
+            s = s.replace(quadCheck, '\n')
+        if tripCheck in s:
+            s = s.replace(tripCheck, '\n')
+        if dubCheck in s:
+            s = s.replace(dubCheck, '\n')
+        if s[0:1] == '\n':
+            s = s[1:]
+        
+        # appends findings to empty lists
+        lyrics.append(s)
+        title.append(song.title)
+        artist.append(song.artist)
+    
+    # writes dictionary object
+    d = {'lyrics' : lyrics,
+         'title' : title,
+         'artist' : artist}
+
+    return(d)
+    
+# function to use collect_songs() on several artists and return data frame    
+def compile_df(artistNames, max_songs = 250):
+    for a in range(len(artistNames)):
+        artistName = artistNames[a]
+        d = collect_songs(artistName, max_songs)
+        if a != 0:
+            df0 = pd.DataFrame(d)
+            df = pd.concat([df, df0])
+        else:
+            df = pd.DataFrame(d)
+    return(df)
+    
+artistNames = ['Bob Dylan', 'Johnny Cash', 'Josh Riter', 
+              'Jason Isbell', 'Jason Isbell and the 400 Unit']
+
+df = compile_df(artistNames)
+
+# gzip dataframe
+df.to_csv('songs.tar.gz', compression='gzip', index=False, sep='\t')
+```
+
+Here's a table for the counts of the searches. The queries for Bob Dylan and Johnny Cash both maxed out at 250, but after accounting for some instrumental songs and other data cleaning here's what I'm left with:
+
+```{r, echo = FALSE}
+library(kableExtra)
+
+artist_df = data.frame('artist' = c('Johnny Cash', 'Bob Dylan', 'Josh Ritter', 'Jason Isbell'),
+                       'songs' = c(250, 248, 190, 98))
+
+kableExtra::kable(artist_df) %>% kable_styling(bootstrap_options = "striped", full_width = F)
+```
+
+And here's an example to show what the text actually looks like ("All Along the Watchtower" - Bob Dylan). 
+
+![](/post/2020-01-09-the-songwriter-s_files/all-along-watchtower.png)
+
+### Transfer Learning and Training
+
+GPUs are preferred to CPUs for deep learning because of their ability to compute rapid mathematical operations in a shorter amount of time. In order to adequately (and quickly) train my model I would need GPU access. There are many options to do this online, but I ended up using [Paperspace](https://www.paperspace.com/). I also used the fastai library within a Jupyter Notebook through the Paperspace environment. Below are some of the key procedures I implemented to produce the language model. 
+
+##### DataBunch
+The first thing to do with this textual data is to convert it into a numerical format. I used a databunch method which tokenizes the words and symbols in the text and then numericalizes these tokens. The numerical aspect has a limit of 60,000 unique tokens it can convert, so for rare words which the model didn't numericalize, it converted these words into placeholders such as "xxmaj" (see the batch output below). This is one of the limitations of the model I built and I would need to rewrite part of the DataBunch class in order to change this unique token limit. 
+
+![](/post/2020-01-09-the-songwriter-s_files/batch-table.png)
+
+##### Learning rate
+One of the best things offered by the fastai library is the learning rate scheduler. I can actually look at the tunings of the learning rate performance and then specify which value of the learning rate I would like to use. You can think of the learning rate as the gradient to which the model will search the feature space for the minimum loss. When chosing this learning rate, it's often best to choose a value that is near the inflection point of the the function as it approaches minimum loss. 
+
+![](/post/2020-01-09-the-songwriter-s_files/learner-fig.png)
+
+##### Language model training
+Over the different epochs of training, I reserved 10 percent of each of the songs to be guessed by the model. This is the accuracy metric that's shown in the output below. By the end of the training rounds for this language model, it's prediction for the next word is approximately 35% and because I only used 786 records with a batch size of 64, each epoch's training didn't take long. 
+
+![](/post/2020-01-09-the-songwriter-s_files/accuracy-table.png)
+
+### Model Prediction
+
+Now onto the big finale - the model predictions! What's great about training a language model is the creativity in the prediction (and the insanity). Since we basically trained the language alone the user only needs to specify the number of words following a defined sentence. Below I've put the first line for some of the artist's own lyrics (bolded) and then shown at most 100 words predicted from the language model. In the last example, I make up some lyrics of my own, for kicks and gigz. I can safely say the originals are much better...
+
+##### Bob Dylan
+
+"**How many roads must a man walk down**  
+  And how many times must go    
+  Where stands you short , broken hearts    
+  Where is your body ?    
+  How many times the sun rolled through me    
+  The sidewalk and the sky through the trees    
+  My face 's tumbling    
+  Your behind the clouds    
+  In the sky xxbos Is the love of a time ?    
+  Or is it a dream ?    
+  Is it on a final cruise ?    
+  What a dream is , it 's about to cross"     
+
+"**Early one mornin' the sun was shinin'**  
+  Early in the morning , the sun blew so sweet that even in the shadows would make the sun fail    
+  There was a beer for Friday rain and a Friday evening    
+  Well , the hour that i waited was friday again    
+  i was made to make a drink that was sweet and the air was easily done    
+  So the night was cold as the sun went down    
+  When my eyes were wet my face was oh    
+  And when i saw the light that day was there"     
+
+##### Johnny Cash
+
+"**I keep a close watch on this heart of mine.**  
+  i 'm a pawn in my game   
+  My heart is a knot in your pocket   
+  i 'm wide awake and i 'm in pain   
+  My heart is a package and i 'm a saint   
+  And i 'm a wise man for you   
+  If you can call me , i will   
+  And i ca n't not be free   
+  Cause i ca n't change my mind   
+  i ’m going back to Jordan   
+  To the East Coast "  
+
+"**I hear the train a comin'**  
+  As i walk , i hear the whistle blowing   
+  i 'm going to hear the whistle when i go   
+  The train is on its way to hell   
+  i 've been on the train all day   
+  And i ’ve been to a place to go a thousand times   
+  And the train ca n't go back   
+  i could have been a bad train   
+  This train is a clean train   
+  This train is a clean train "  
+
+##### Josh Ritter
+
+"**Mama got a look at you and got a little worried**  
+Honey , i 'm rolling and rolling    
+Oh , you look like you 're a dark white man    
+But now you 're right in front    
+i got a little worried about you    
+Now you 're a Bible thief    
+i got out of my hole    
+So i got a look in my eye    
+But , Jesus , i got sick , i ai n't got any shoes    
+Oh , i do n't know    
+Little Jesus by name "     
+
+"**He opens his eyes, falls in love at first sight**  
+He holds his eyes , shouting    
+He walks alone    
+He walks in the hall , he burns and calls    
+He calls out he will make me happy , he will be with me    
+He will be nobody 's fool    
+He said , " Are you who you are ! i love you , you be our God ! " ?    
+You are God !    
+Yes , Lord , have His Arms .    
+You 're the best ."     
+
+##### Jason Isbell
+
+"**It's not the long, flowing dress that you're in.**  
+The stage is smooth and it is smooth like smooth sand    
+Flowers are scattered and scattered in the sky    
+In the light of the evening evening sky , the sky is blue , drinking spoon    
+In the morning , the rain is a sight . It is the only day that the wind starts to shine in the day , and the    wind honors , for the lighting flash at the lighting flash    
+( Tree is on fire )    
+On the shoulder of Royal City"     
+
+"**I hope you find something to love**  
+ i 'll stone you when you got a new highway    
+And you 'll take a vacation    
+i 'll marry you for that ocean and the nail and nail your boots and feet    
+i 'll stand this new road , My Lover 's God    
+i 'll stone you and buy me some new    
+You 'll find me at Texarkana    
+You 'll find Texarkana , where it is home    
+It 's not the only home    
+It 's a home home for me "     
+
+##### Made up lyrics
+
+"**My feet have found that same ol' street**  
+You ’re the best , the best , the best , the best , the best , the best    
+The best is the harder stuff    
+In the Sky , the sky is beginning to show    
+The sky is beginning to grow    
+In a laugh    
+The old Sky Town clouds were so quiet    
+The sky was so big they were empty    
+The sky was cold    
+The sky was warm in the nights and the sky was sweeter than the sky "     
+
+"**Her ship set off to sail in May**  
+ While her anchor heading south along the Wide Bay    
+On the way home , South America    
+The Rising Sun    
+On the East Coast    
+On the East Coast    
+On the East Coast    
+There 's one deep - harbor harbor    
+On the other side of the ocean    
+Much of the ocean 's in the north    
+In the south , South America    
+East of the Great"     
