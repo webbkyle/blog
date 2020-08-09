@@ -89,6 +89,9 @@ home = ["HTML", "RSS", "Algolia"]
   [[params.bookmark_link]]
   title = "Ross Douthat"
   href = "https://www.nytimes.com/column/ross-douthat"
+  [[params.bookmark_link]]
+  title = "NIH Director's Blog"
+  href = "https://directorsblog.nih.gov/"
   
   
   [[params.addtional_menus]]

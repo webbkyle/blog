@@ -1,0 +1,128 @@
+---
+title: Study finds man's best friend may have a role to play in testing for COVID-19
+author: Kyle Webb
+date: '2020-08-03'
+slug: study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19
+categories:
+  - data science
+  - statistics
+tags:
+  - data science
+  - statistics
+subtitle: ''
+description: "Bayesian analysis of the sensitivity, specificity, TPR, and TNR distributions from a German study measuring dogs' ability to detect SARS-CoV-2 from saliva and tracheobronchial secretions"
+image: ''
+---
+
+I was astounded (and pretty skeptical) when I saw articles saying [Study says Trained Dogs Can Identify COVID-19](https://www.webmd.com/lung/news/20200729/study-says-trained-dogs-can-identify-covid-19) and [Researchers successfully train dogs to detect COVID-19 infections](https://www.msn.com/en-us/health/medical/researchers-successfully-train-dogs-to-detect-covid-19-infections/ar-BB179GfW). Alarm bells for fake news were ringing in my head. Had curiosity not got the better of me, I would have disregarded the headlines as another attempt from unreliable sources to advertise dishonest science and beguile to the unassuming reader. But upon further inspection, I found I was completely wrong...and I'm glad I was! 
+
+The [original study](https://bmcinfectdis.biomedcentral.com/articles/10.1186/s12879-020-05281-3), conducted by a research team at the University of Veterinary Medicine Hannover (in Germany) was pretty amazing. 8 dogs were trained for a week on positive/negative samples in a randomized double blind study using the Detection Dog Training System (a robotic reward system for dogs). During testing, if a dog's snout stayed in one of the seven DDTS holes for at least 2 seconds, then that was interpretted as the the dog's guess for a SARS-CoV-2 positive sample. The image below shows a dog correctly identifying one of the holes (highlighted in green).
+
+![](/post/2020-08-03-study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19_files/ddts.png)
+
+The results showed that the 8 dogs had fairly high, consistent measures for detecting the SARS-CoV-2 virus and controls. Not only were the dogs sniffing out the virus, but they were doing it for saliva and tracheobroncal samples in a matter of seconds! Alternatively, RT-PCR tests, believed to be the most accurate testing capabilities to date, can take days and possibly weeks to ship, run, and return. If trained dogs truly can have these types of results in such a small timescale then that's incredible news! [This video](https://www.youtube.com/watch?v=lzDYsZfd-fY&feature=youtu.be) helps to illustrate some of the amazing mechanical feats of this study and their overall scientific question and methods. Plus you can witness some of these dogs in action. 
+
+Something I was unclear on for this study was how the researchers measured a dog's negative predicitons. For instance, in the video, a dog might sniff one of the DDTS holes and not commit to that sample for the two second time window. Did that sniff count as a true negative prediction? What really constitutes a true negative pass? Can a dog just walk by some of the holes? Also, were there any trials where dogs didn't guess at all? If so, what happened for scoring those trials? Obviously the researchers can't describe every little step, but details on these aspects of the study and how observations were recorded would be beneficial.
+
+#### Study analysis
+
+I decided to get my hands on the data for this study ([available here](https://zenodo.org/record/3950074)) and Table 1 outlines the only data I used. I thought it was a funny that dog "Seven" is numbered as 8 in the study. There has to be something lost in German/English translation here `r emo::ji("laughing")`
+
+```{r import_data, include = FALSE}
+library(data.table); library(tidyverse); library(kableExtra)
+
+dat = fread("data/data_file_4.csv")
+```
+
+```{r show_table, echo = FALSE}
+dat %>% select(-c(starts_with("logit_"), 
+                  sens, spec, tpr, tnr)) %>%
+  arrange(dog_name) %>% 
+  knitr::kable() %>%
+  kableExtra::kable_styling(bootstrap_options =
+                              c("striped", "hover", "condensed"),
+                            full_width = F)
+
+```
+
+The bar chart below shows the dogs and the number of guesses they make (*Total* column above) with Luigi leading the pack.
+
+```{r plot_dat, echo = FALSE}
+barplot_dat = dat %>% select(dog_name, Total) %>% 
+  arrange(desc(Total)) %>% 
+  mutate(dog_name = fct_reorder(dog_name, -desc(Total))) 
+
+# plotting data
+ggplot(barplot_dat, aes(x = dog_name, y = Total)) +
+  geom_bar(stat = 'identity', fill = 'steelblue') +
+  geom_text(aes(label=Total), vjust = 0, hjust = 1.5, 
+            color = "white", size = 4) +
+  theme_minimal() +
+  labs(x = "Dog Name") +
+  coord_flip() +
+  theme(axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+```
+
+Scatterplots below show the dogs' measures of sensitivity, specificity, true positive rate (TPR) and true negative rate (TNR), each calculated from the true positive (TP), true negative (TN), false positive (FP), and false negative (FN) observations in Table 1. 
+
+```{r plot_dat2, echo = FALSE}
+plot_dat = dat %>% select(dog_name, sens, spec, tpr, tnr) %>% 
+  pivot_longer(cols = c(sens, spec, tpr, tnr)) %>% 
+  group_by(name) %>% 
+  mutate(mean_val = mean(value)) %>% 
+  ungroup() %>% 
+  mutate(name = case_when(name == "sens" ~ "Sensitivity",
+                          name == "spec" ~ "Specificity",
+                          name == "tpr" ~ "TPR",
+                          name == "tnr" ~ "TNR"))
+
+ggplot(plot_dat) +
+  geom_point(aes(x = dog_name, y = value)) +
+  geom_hline(aes(yintercept = mean_val), linetype = 'dashed') +
+  geom_text(aes(x = 7.5, y = mean_val + .03, label = round(mean_val, 2)), 
+            color = "black", size = 3.5) +
+  facet_wrap(~ name, nrow = 2, ncol = 2, scales = "fixed") +
+  labs(x = "Dog Name")
+```
+
+Next, I used bayesian analysis to quantify these estimates probabilistically and derive population effects as well as effects for each dog. I've used Bayesian statistics because some of the estimates approach the boundary line for the proportion parameters (i.e. 1), the quantities are in relatively low frequency of observation, and I can encorporate priors reflecting my own beliefs before learning about these results. 
+
+#### Modeling effects for each measure using Beta-Binomial conjugacy
+
+Under this method I assume a $Beta(3,3)$ prior (shown below). The reason for this selection was because the choice reflected my initial reaction to the headlines - I would expect a dog's detection, positive and negative, to be about 50%.
+
+```{r beta_prior, echo = FALSE}
+x = seq(0,1, by = .001)
+plot(x, dbeta(x, 3, 3), type = 'l')
+```
+
+The underlying model is $Y_{ij} = {n_{ij} \choose x_{ij}}p_{ij}^{x_{ij}}(1-p_{ij})^{n_{ij}-x_{ij}}$ where $i = {(1, 2, 3..., 8)}$ for each of the dogs and $j = {(1, 2, 3, 4)}$ for the different accuracy measures. The $Beta(3,3)$ prior leads to a posterior of $Beta(\sum{x_i} + 3, n - \sum{x_i} + 3)$ for each $p_{ij}$. The figure below shows these respective posteriors for each of the dogs across the four measures with overall median illustrated by dashed red lines. We see that Lotta would likely outpreform other dogs in measures of sensitivity and true positive rate.  
+
+![](/post/2020-08-03-study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19_files/figure-html/beta_conj_sim.png)
+
+#### Modeling population and dog effects for each measure on logit scale
+
+The problem with the previous model choice is that it doesn't distinguish between the random effect of the population dog effect and the fixed effect of each dog's performance. A hierarchical model with estimates on poulation and individual dog effect would be a better choice for our analysis. 
+
+For a weaker performing dog, we need a way to estimate negative effects, but $p$ can't be negative ($p \in [0,1]$). Therefore, I've transformed the percentages for sensitivity, specificty, tpr, and tnr to the logit scale (i.e. $logitP = log(\frac{p {1-p)$ s.t. $p \in (-\infty, \infty)$). I add the logit random effects of population and fixed individual dog effects, while choosing appropriate priors for these effects on the logit scale. The following model shows the hierarchical relation:  
+
+$\mu_{j} \sim N(logitP_{j}, \frac{1}{\sqrt{n_{j}}})$  
+$\theta_{ij} \sim N(logitP_{ij} - logitP_{j}, \frac{1}{\sqrt{n_{ij}}})$  
+$p_{ij} = \frac{1}{1 + exp(-\mu_{j}-\theta_{ij})}$  
+$Y_{ij} = {n_{ij} \choose x_{ij}}p_{ij}^{x_{ij}}(1-p_{ij})^{n_{ij}-x_{ij}}$.  
+
+
+Note the difference in standard deviation for the priors on $\mu$ and $\theta$. $\theta$ takes the overall **number** of times an individual dog ($n_{ij}$) has been tested and $\theta$ takes the **number** of all tests for the dogs under each specific measure ($n_{j}$). This will cause individual dog effects to be more variable than than the population effect (i.e. $n_{ij} < n_{j}$). 
+
+Here, we see the sample distribution for the overall dog effect for each dog and population mean dog effect for each of the four measures under the hierarchical model. 
+
+![](/post/2020-08-03-study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19_files/figure-html/hi2_overall.png)
+
+#### Conclusion
+
+Clearly we seem some of the dogs (Lotta, Hoss, Elli, and Coyote) are better at sniffing out SARS-CoV-2 than others, especially when we use the second hierarchical model to get mean population measures and the corresponding estimates for individual dogs. I liked that the conjugacy and hierarchical methods took the number of times the dogs were tested for each of the measures, however the hierarchical model helped to spell out what we think about a dog from the population trained for this study, and each of the individual dogs.  
+  
+For a highly trained dog with promising results, this could be an effective method for testing! Obviously logisitics and implementation come into conversation here, and more study is definitely needed, but I've been really surprised by this study. I tried to find current sensitivity, specificity, true positive rates, and true negative rates for current COVID testing methods, but I couldn't find reliable data from the field. It will be interesting to see how this data compares. In summary, dogs rule, COVID drools (though TBH - I'm more of a cat person). 

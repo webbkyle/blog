@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><head>
+    <meta name="google-site-verification" content="9vIieCe-Qpd78QOmBl63rGtIVbhY6sYyuxX3j8XWBA4" />
+    <meta name="baidu-site-verification" content="LRrmH41lz7" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="description" content="Bayesian analysis of the sensitivity, specificity, TPR, and TNR distributions from a German study measuring dogs&#39; ability to detect SARS-CoV-2 from saliva and tracheobronchial secretions">
+    
+    <meta name="keyword"  content="Kyle Webb, Webb, Blog">
+    
+    <link rel="shortcut icon" href="/img/wb.png">
+
+    <title>Study finds man&#39;s best friend may have a role to play in testing for COVID-19- A blog for the web</title>
+
+    <link rel="canonical" href="/2020/08/03/study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+</head>
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Webb Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    
+                    
+                    <li>
+                        <a href="/categories/data-science">data science</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/politics">politics</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/sports">sports</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/statistics">statistics</a>
+                    </li>
+                    
+
+		    
+                        <li><a href=""></a></li>
+                    
+                        <li><a href=""></a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/backdrop.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/data-science" title="data science">
+                            data science
+                        </a>
+                        
+                        <a class="tag" href="/tags/statistics" title="statistics">
+                            statistics
+                        </a>
+                        
+                    </div>
+                    <h1>Study finds man&#39;s best friend may have a role to play in testing for COVID-19</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+			Posted by 
+			
+			    Kyle Webb
+			 
+			on 
+			Monday, August 3, 2020
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    
+                </header>
+                
+                
+                <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<p>I was astounded (and pretty skeptical) when I saw articles saying <a href="https://www.webmd.com/lung/news/20200729/study-says-trained-dogs-can-identify-covid-19">Study says Trained Dogs Can Identify COVID-19</a> and <a href="https://www.msn.com/en-us/health/medical/researchers-successfully-train-dogs-to-detect-covid-19-infections/ar-BB179GfW">Researchers successfully train dogs to detect COVID-19 infections</a>. Alarm bells for fake news were ringing in my head. Had curiosity not got the better of me, I would have disregarded the headlines as another attempt from unreliable sources to advertise dishonest science and beguile to the unassuming reader. But upon further inspection, I found I was completely wrong…and I’m glad I was!</p>
+<p>The <a href="https://bmcinfectdis.biomedcentral.com/articles/10.1186/s12879-020-05281-3">original study</a>, conducted by a research team at the University of Veterinary Medicine Hannover (in Germany) was pretty amazing. 8 dogs were trained for a week on positive/negative samples in a randomized double blind study using the Detection Dog Training System (a robotic reward system for dogs). During testing, if a dog’s snout stayed in one of the seven DDTS holes for at least 2 seconds, then that was interpretted as the the dog’s guess for a SARS-CoV-2 positive sample. The image below shows a dog correctly identifying one of the holes (highlighted in green).</p>
+<p><img src="/post/2020-08-03-study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19_files/ddts.png" /></p>
+<p>The results showed that the 8 dogs had fairly high, consistent measures for detecting the SARS-CoV-2 virus and controls. Not only were the dogs sniffing out the virus, but they were doing it for saliva and tracheobroncal samples in a matter of seconds! Alternatively, RT-PCR tests, believed to be the most accurate testing capabilities to date, can take days and possibly weeks to ship, run, and return. If trained dogs truly can have these types of results in such a small timescale then that’s incredible news! <a href="https://www.youtube.com/watch?v=lzDYsZfd-fY&amp;feature=youtu.be">This video</a> helps to illustrate some of the amazing mechanical feats of this study and their overall scientific question and methods. Plus you can witness some of these dogs in action.</p>
+<p>Something I was unclear on for this study was how the researchers measured a dog’s negative predicitons. For instance, in the video, a dog might sniff one of the DDTS holes and not commit to that sample for the two second time window. Did that sniff count as a true negative prediction? What really constitutes a true negative pass? Can a dog just walk by some of the holes? Also, were there any trials where dogs didn’t guess at all? If so, what happened for scoring those trials? Obviously the researchers can’t describe every little step, but details on these aspects of the study and how observations were recorded would be beneficial.</p>
+<div id="study-analysis" class="section level4">
+<h4>Study analysis</h4>
+<p>I decided to get my hands on the data for this study (<a href="https://zenodo.org/record/3950074">available here</a>) and Table 1 outlines the only data I used. I thought it was a funny that dog “Seven” is numbered as 8 in the study. There has to be something lost in German/English translation here 😆</p>
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+dog_name
+</th>
+<th style="text-align:right;">
+dog_number
+</th>
+<th style="text-align:right;">
+Total
+</th>
+<th style="text-align:right;">
+TP
+</th>
+<th style="text-align:right;">
+TN
+</th>
+<th style="text-align:right;">
+FP
+</th>
+<th style="text-align:right;">
+FN
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Coyote
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+113
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+89
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Donnie
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+95
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Elli
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+115
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+91
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hoss
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+135
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Jo
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+122
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+92
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lotta
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+104
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+81
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Luigi
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+170
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+137
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Seven
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+133
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+97
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+</tbody>
+</table>
+<p>The bar chart below shows the dogs and the number of guesses they make (<em>Total</em> column above) with Luigi leading the pack.</p>
+<p><img src="/post/2020-08-03-study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19_files/figure-html/plot_dat-1.png" width="672" /></p>
+<p>Scatterplots below show the dogs’ measures of sensitivity, specificity, true positive rate (TPR) and true negative rate (TNR), each calculated from the true positive (TP), true negative (TN), false positive (FP), and false negative (FN) observations in Table 1.</p>
+<p><img src="/post/2020-08-03-study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19_files/figure-html/plot_dat2-1.png" width="672" /></p>
+<p>Next, I used bayesian analysis to quantify these estimates probabilistically and derive population effects as well as effects for each dog. I’ve used Bayesian statistics because some of the estimates approach the boundary line for the proportion parameters (i.e. 1), the quantities are in relatively low frequency of observation, and I can encorporate priors reflecting my own beliefs before learning about these results.</p>
+</div>
+<div id="modeling-effects-for-each-measure-using-beta-binomial-conjugacy" class="section level4">
+<h4>Modeling effects for each measure using Beta-Binomial conjugacy</h4>
+<p>Under this method I assume a <span class="math inline">\(Beta(3,3)\)</span> prior (shown below). The reason for this selection was because the choice reflected my initial reaction to the headlines - I would expect a dog’s detection, positive and negative, to be about 50%.</p>
+<p><img src="/post/2020-08-03-study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19_files/figure-html/beta_prior-1.png" width="672" /></p>
+<p>The underlying model is <span class="math inline">\(Y_{ij} = {n_{ij} \choose x_{ij}}p_{ij}^{x_{ij}}(1-p_{ij})^{n_{ij}-x_{ij}}\)</span> where <span class="math inline">\(i = {(1, 2, 3..., 8)}\)</span> for each of the dogs and <span class="math inline">\(j = {(1, 2, 3, 4)}\)</span> for the different accuracy measures. The <span class="math inline">\(Beta(3,3)\)</span> prior leads to a posterior of <span class="math inline">\(Beta(\sum{x_i} + 3, n - \sum{x_i} + 3)\)</span> for each <span class="math inline">\(p_{ij}\)</span>. The figure below shows these respective posteriors for each of the dogs across the four measures with overall median illustrated by dashed red lines. We see that Lotta would likely outpreform other dogs in measures of sensitivity and true positive rate.</p>
+<p><img src="/post/2020-08-03-study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19_files/figure-html/beta_conj_sim.png" /></p>
+</div>
+<div id="modeling-population-and-dog-effects-for-each-measure-on-logit-scale" class="section level4">
+<h4>Modeling population and dog effects for each measure on logit scale</h4>
+<p>The problem with the previous model choice is that it doesn’t distinguish between the random effect of the population dog effect and the fixed effect of each dog’s performance. A hierarchical model with estimates on poulation and individual dog effect would be a better choice for our analysis.</p>
+<p>For a weaker performing dog, we need a way to estimate negative effects, but <span class="math inline">\(p\)</span> can’t be negative (<span class="math inline">\(p \in [0,1]\)</span>). Therefore, I’ve transformed the percentages for sensitivity, specificty, tpr, and tnr to the logit scale (i.e. <span class="math inline">\(logitP = log(\frac{p {1-p)\)</span> s.t. <span class="math inline">\(p \in (-\infty, \infty)\)</span>). I add the logit random effects of population and fixed individual dog effects, while choosing appropriate priors for these effects on the logit scale. The following model shows the hierarchical relation:</p>
+<p><span class="math inline">\(\mu_{j} \sim N(logitP_{j}, \frac{1}{\sqrt{n_{j}}})\)</span><br />
+<span class="math inline">\(\theta_{ij} \sim N(logitP_{ij} - logitP_{j}, \frac{1}{\sqrt{n_{ij}}})\)</span><br />
+<span class="math inline">\(p_{ij} = \frac{1}{1 + exp(-\mu_{j}-\theta_{ij})}\)</span><br />
+<span class="math inline">\(Y_{ij} = {n_{ij} \choose x_{ij}}p_{ij}^{x_{ij}}(1-p_{ij})^{n_{ij}-x_{ij}}\)</span>.</p>
+<p>Note the difference in standard deviation for the priors on <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\theta\)</span>. <span class="math inline">\(\theta\)</span> takes the overall <strong>number</strong> of times an individual dog (<span class="math inline">\(n_{ij}\)</span>) has been tested and <span class="math inline">\(\theta\)</span> takes the <strong>number</strong> of all tests for the dogs under each specific measure (<span class="math inline">\(n_{j}\)</span>). This will cause individual dog effects to be more variable than than the population effect (i.e. <span class="math inline">\(n_{ij} &lt; n_{j}\)</span>).</p>
+<p>Here, we see the sample distribution for the overall dog effect for each dog and population mean dog effect for each of the four measures under the hierarchical model.</p>
+<p><img src="/post/2020-08-03-study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19_files/figure-html/hi2_overall.png" /></p>
+</div>
+<div id="conclusion" class="section level4">
+<h4>Conclusion</h4>
+<p>Clearly we seem some of the dogs (Lotta, Hoss, Elli, and Coyote) are better at sniffing out SARS-CoV-2 than others, especially when we use the second hierarchical model to get mean population measures and the corresponding estimates for individual dogs. I liked that the conjugacy and hierarchical methods took the number of times the dogs were tested for each of the measures, however the hierarchical model helped to spell out what we think about a dog from the population trained for this study, and each of the individual dogs.</p>
+<p>For a highly trained dog with promising results, this could be an effective method for testing! Obviously logisitics and implementation come into conversation here, and more study is definitely needed, but I’ve been really surprised by this study. I tried to find current sensitivity, specificity, true positive rates, and true negative rates for current COVID testing methods, but I couldn’t find reliable data from the field. It will be interesting to see how this data compares. In summary, dogs rule, COVID drools (though TBH - I’m more of a cat person).</p>
+</div>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2020/01/09/the-songwriter-s/" data-toggle="tooltip" data-placement="top" title="NLP on American Songwriting">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/data-science" title="data science">
+                            data science
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/politics" title="politics">
+                            politics
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/sports" title="sports">
+                            sports
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/statistics" title="statistics">
+                            statistics
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href="" rel="alternate" type="application/rss+xml" title="Webb Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:webb.kyle@outlook.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/webbkyle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Webb Blog , 2020
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-147993035-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>
