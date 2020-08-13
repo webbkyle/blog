@@ -9,9 +9,9 @@ categories:
 tags:
   - data science
   - statistics
-subtitle: ''
-description: "Bayesian analysis of the sensitivity, specificity, TPR, and TNR distributions from a German study measuring dogs' ability to detect SARS-CoV-2 from saliva and tracheobronchial secretions"
-image: ''
+subtitle: ""
+description: "Bayesian analysis of the sensitivity, specificity, PPV, and NPV distributions from a German study measuring dogs' ability to detect SARS-CoV-2 from saliva and tracheobronchial secretions"
+image: ""
 ---
 
 I was astounded (and pretty skeptical) when I saw articles saying [Study says Trained Dogs Can Identify COVID-19](https://www.webmd.com/lung/news/20200729/study-says-trained-dogs-can-identify-covid-19) and [Researchers successfully train dogs to detect COVID-19 infections](https://www.msn.com/en-us/health/medical/researchers-successfully-train-dogs-to-detect-covid-19-infections/ar-BB179GfW). Alarm bells for fake news were ringing in my head. Had curiosity not got the better of me, I would have disregarded the headlines as another attempt from unreliable sources to advertise dishonest science and beguile to the unassuming reader. But upon further inspection, I found I was completely wrong...and I'm glad I was! 
@@ -36,7 +36,7 @@ dat = fread("data/data_file_4.csv")
 
 ```{r show_table, echo = FALSE}
 dat %>% select(-c(starts_with("logit_"), 
-                  sens, spec, tpr, tnr)) %>%
+                  sens, spec, ppv, npv)) %>%
   arrange(dog_name) %>% 
   knitr::kable() %>%
   kableExtra::kable_styling(bootstrap_options =
@@ -66,18 +66,18 @@ ggplot(barplot_dat, aes(x = dog_name, y = Total)) +
 
 ```
 
-Scatterplots below show the dogs' measures of sensitivity, specificity, true positive rate (TPR) and true negative rate (TNR), each calculated from the true positive (TP), true negative (TN), false positive (FP), and false negative (FN) observations in Table 1. 
+Scatterplots below show the dogs' measures of sensitivity, specificity, positive predictive value (PPV) and negative predictive value (NPV), each calculated from the true positive (TP), true negative (TN), false positive (FP), and false negative (FN) observations in Table 1. 
 
 ```{r plot_dat2, echo = FALSE}
-plot_dat = dat %>% select(dog_name, sens, spec, tpr, tnr) %>% 
-  pivot_longer(cols = c(sens, spec, tpr, tnr)) %>% 
+plot_dat = dat %>% select(dog_name, sens, spec, ppv, npv) %>% 
+  pivot_longer(cols = c(sens, spec, ppv, npv)) %>% 
   group_by(name) %>% 
   mutate(mean_val = mean(value)) %>% 
   ungroup() %>% 
   mutate(name = case_when(name == "sens" ~ "Sensitivity",
                           name == "spec" ~ "Specificity",
-                          name == "tpr" ~ "TPR",
-                          name == "tnr" ~ "TNR"))
+                          name == "ppv" ~ "PPV",
+                          name == "npv" ~ "NPV"))
 
 ggplot(plot_dat) +
   geom_point(aes(x = dog_name, y = value)) +
@@ -99,7 +99,7 @@ x = seq(0,1, by = .001)
 plot(x, dbeta(x, 3, 3), type = 'l')
 ```
 
-The underlying model is $Y_{ij} = {n_{ij} \choose x_{ij}}p_{ij}^{x_{ij}}(1-p_{ij})^{n_{ij}-x_{ij}}$ where $i = {(1, 2, 3..., 8)}$ for each of the dogs and $j = {(1, 2, 3, 4)}$ for the different accuracy measures. The $Beta(3,3)$ prior leads to a posterior of $Beta(\sum{x_i} + 3, n - \sum{x_i} + 3)$ for each $p_{ij}$. The figure below shows these respective posteriors for each of the dogs across the four measures with overall median illustrated by dashed red lines. We see that Lotta would likely outpreform other dogs in measures of sensitivity and true positive rate.  
+The underlying model is $Y_{ij} = {n_{ij} \choose x_{ij}}p_{ij}^{x_{ij}}(1-p_{ij})^{n_{ij}-x_{ij}}$ where $i = {(1, 2, 3..., 8)}$ for each of the dogs and $j = {(1, 2, 3, 4)}$ for the different accuracy measures. The $Beta(3,3)$ prior leads to a posterior of $Beta(\sum{x_i} + 3, n - \sum{x_i} + 3)$ for each $p_{ij}$. The figure below shows these respective posteriors for each of the dogs across the four measures with overall median illustrated by dashed red lines. We see that Lotta would likely outpreform other dogs in measures of sensitivity and PPV.  
 
 ![](/post/2020-08-03-study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19_files/figure-html/beta_conj_sim.png)
 
@@ -107,7 +107,7 @@ The underlying model is $Y_{ij} = {n_{ij} \choose x_{ij}}p_{ij}^{x_{ij}}(1-p_{ij
 
 The problem with the previous model choice is that it doesn't distinguish between the random effect of the population dog effect and the fixed effect of each dog's performance. A hierarchical model with estimates on poulation and individual dog effect would be a better choice for our analysis. 
 
-For a weaker performing dog, we need a way to estimate negative effects, but $p$ can't be negative ($p \in [0,1]$). Therefore, I've transformed the percentages for sensitivity, specificty, tpr, and tnr to the logit scale (i.e. $logitP = log(\frac{p {1-p)$ s.t. $p \in (-\infty, \infty)$). I add the logit random effects of population and fixed individual dog effects, while choosing appropriate priors for these effects on the logit scale. The following model shows the hierarchical relation:  
+For a weaker performing dog, we need a way to estimate negative effects, but $p$ can't be negative ($p \in [0,1]$). Therefore, I've transformed the percentages for sensitivity, specificty, ppv, and npv to the logit scale (i.e. $logitP = log(\frac{p {1-p)$ s.t. $p \in (-\infty, \infty)$). I add the logit random effects of population and fixed individual dog effects, while choosing appropriate priors for these effects on the logit scale. The following model shows the hierarchical relation:  
 
 $\mu_{j} \sim N(logitP_{j}, \frac{1}{\sqrt{n_{j}}})$  
 $\theta_{ij} \sim N(logitP_{ij} - logitP_{j}, \frac{1}{\sqrt{n_{ij}}})$  

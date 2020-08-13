@@ -9,9 +9,9 @@ categories:
 tags:
   - data science
   - statistics
-subtitle: ''
-description: "Bayesian analysis of the sensitivity, specificity, TPR, and TNR distributions from a German study measuring dogs' ability to detect SARS-CoV-2 from saliva and tracheobronchial secretions"
-image: ''
+subtitle: ""
+description: "Bayesian analysis of the sensitivity, specificity, PPV, and NPV distributions from a German study measuring dogs' ability to detect SARS-CoV-2 from saliva and tracheobronchial secretions"
+image: ""
 ---
 
 <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
@@ -240,7 +240,7 @@ Seven
 </table>
 <p>The bar chart below shows the dogs and the number of guesses they make (<em>Total</em> column above) with Luigi leading the pack.</p>
 <p><img src="/post/2020-08-03-study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19_files/figure-html/plot_dat-1.png" width="672" /></p>
-<p>Scatterplots below show the dogs’ measures of sensitivity, specificity, true positive rate (TPR) and true negative rate (TNR), each calculated from the true positive (TP), true negative (TN), false positive (FP), and false negative (FN) observations in Table 1.</p>
+<p>Scatterplots below show the dogs’ measures of sensitivity, specificity, positive predictive value (PPV) and negative predictive value (NPV), each calculated from the true positive (TP), true negative (TN), false positive (FP), and false negative (FN) observations in Table 1.</p>
 <p><img src="/post/2020-08-03-study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19_files/figure-html/plot_dat2-1.png" width="672" /></p>
 <p>Next, I used bayesian analysis to quantify these estimates probabilistically and derive population effects as well as effects for each dog. I’ve used Bayesian statistics because some of the estimates approach the boundary line for the proportion parameters (i.e. 1), the quantities are in relatively low frequency of observation, and I can encorporate priors reflecting my own beliefs before learning about these results.</p>
 </div>
@@ -248,13 +248,13 @@ Seven
 <h4>Modeling effects for each measure using Beta-Binomial conjugacy</h4>
 <p>Under this method I assume a <span class="math inline">\(Beta(3,3)\)</span> prior (shown below). The reason for this selection was because the choice reflected my initial reaction to the headlines - I would expect a dog’s detection, positive and negative, to be about 50%.</p>
 <p><img src="/post/2020-08-03-study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19_files/figure-html/beta_prior-1.png" width="672" /></p>
-<p>The underlying model is <span class="math inline">\(Y_{ij} = {n_{ij} \choose x_{ij}}p_{ij}^{x_{ij}}(1-p_{ij})^{n_{ij}-x_{ij}}\)</span> where <span class="math inline">\(i = {(1, 2, 3..., 8)}\)</span> for each of the dogs and <span class="math inline">\(j = {(1, 2, 3, 4)}\)</span> for the different accuracy measures. The <span class="math inline">\(Beta(3,3)\)</span> prior leads to a posterior of <span class="math inline">\(Beta(\sum{x_i} + 3, n - \sum{x_i} + 3)\)</span> for each <span class="math inline">\(p_{ij}\)</span>. The figure below shows these respective posteriors for each of the dogs across the four measures with overall median illustrated by dashed red lines. We see that Lotta would likely outpreform other dogs in measures of sensitivity and true positive rate.</p>
+<p>The underlying model is <span class="math inline">\(Y_{ij} = {n_{ij} \choose x_{ij}}p_{ij}^{x_{ij}}(1-p_{ij})^{n_{ij}-x_{ij}}\)</span> where <span class="math inline">\(i = {(1, 2, 3..., 8)}\)</span> for each of the dogs and <span class="math inline">\(j = {(1, 2, 3, 4)}\)</span> for the different accuracy measures. The <span class="math inline">\(Beta(3,3)\)</span> prior leads to a posterior of <span class="math inline">\(Beta(\sum{x_i} + 3, n - \sum{x_i} + 3)\)</span> for each <span class="math inline">\(p_{ij}\)</span>. The figure below shows these respective posteriors for each of the dogs across the four measures with overall median illustrated by dashed red lines. We see that Lotta would likely outpreform other dogs in measures of sensitivity and PPV.</p>
 <p><img src="/post/2020-08-03-study-finds-man-s-best-friend-may-have-a-role-to-play-in-testing-for-covid-19_files/figure-html/beta_conj_sim.png" /></p>
 </div>
 <div id="modeling-population-and-dog-effects-for-each-measure-on-logit-scale" class="section level4">
 <h4>Modeling population and dog effects for each measure on logit scale</h4>
 <p>The problem with the previous model choice is that it doesn’t distinguish between the random effect of the population dog effect and the fixed effect of each dog’s performance. A hierarchical model with estimates on poulation and individual dog effect would be a better choice for our analysis.</p>
-<p>For a weaker performing dog, we need a way to estimate negative effects, but <span class="math inline">\(p\)</span> can’t be negative (<span class="math inline">\(p \in [0,1]\)</span>). Therefore, I’ve transformed the percentages for sensitivity, specificty, tpr, and tnr to the logit scale (i.e. <span class="math inline">\(logitP = log(\frac{p {1-p)\)</span> s.t. <span class="math inline">\(p \in (-\infty, \infty)\)</span>). I add the logit random effects of population and fixed individual dog effects, while choosing appropriate priors for these effects on the logit scale. The following model shows the hierarchical relation:</p>
+<p>For a weaker performing dog, we need a way to estimate negative effects, but <span class="math inline">\(p\)</span> can’t be negative (<span class="math inline">\(p \in [0,1]\)</span>). Therefore, I’ve transformed the percentages for sensitivity, specificty, ppv, and npv to the logit scale (i.e. <span class="math inline">\(logitP = log(\frac{p {1-p)\)</span> s.t. <span class="math inline">\(p \in (-\infty, \infty)\)</span>). I add the logit random effects of population and fixed individual dog effects, while choosing appropriate priors for these effects on the logit scale. The following model shows the hierarchical relation:</p>
 <p><span class="math inline">\(\mu_{j} \sim N(logitP_{j}, \frac{1}{\sqrt{n_{j}}})\)</span><br />
 <span class="math inline">\(\theta_{ij} \sim N(logitP_{ij} - logitP_{j}, \frac{1}{\sqrt{n_{ij}}})\)</span><br />
 <span class="math inline">\(p_{ij} = \frac{1}{1 + exp(-\mu_{j}-\theta_{ij})}\)</span><br />
